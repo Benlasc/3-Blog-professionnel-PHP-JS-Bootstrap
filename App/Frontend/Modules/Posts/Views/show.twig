@@ -1,0 +1,26 @@
+{% extends 'layout.twig' %}
+
+{# {{post.dateModif}} #}
+
+
+{# {{post.chapo}} #}
+
+{% block title %}{{post.titre}}{% endblock %}
+
+{% block content %}
+    <div class="container">
+
+        <article>
+            <h2 class="title">{{post.titre}}</h2>
+
+            <img class = "blog_image" src={{post.image}} width="600" height="400" alt="">
+    
+            <p class="infoblog">
+                {{post.dateCreation|format_datetime(locale='fr',pattern="'Le' d MMMM yyyy 'à' H'h'm")}} | Par {{auteur}}
+            </p>
+
+            <p>{{post.contenu}}</p>
+        </article>
+    </div>
+
+{% endblock %}

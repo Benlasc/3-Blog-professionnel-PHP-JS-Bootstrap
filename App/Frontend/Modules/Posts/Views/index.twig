@@ -1,0 +1,36 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+
+	<div class="container">
+		<h1 class="title">Bienvenue sur le blog</h1>
+		<div class="grid row row-cols-1 row-cols-md-3 g-4">
+			{% for post in listePosts %}
+				<div class="col">
+					<a href="blog/{{post.slug}}-{{post.id}}">
+						<div class="card h-100">
+							<img src={{post.image}} class="card-img-top" alt="...">
+							<div class="card-body">
+								<h5 class="card-title">{{post.titre}}</h5>
+								<p class="card-text">{{post.chapo}}</p>
+							</div>
+							<div class="card-footer">
+								{% if post.dateCreation != post.dateModif  %}
+									<small class="text-muted">Dernière modification :
+										{{post.dateModif|format_datetime(locale='fr',pattern="'le' d MMMM yyyy 'à' H'h'm") }}
+									</small>
+								{% else %}
+									<small class="text-muted">Date de création :
+										{{post.dateModif|format_datetime(locale='fr',pattern="'le' d MMMM yyyy 'à' H'h'm") }}
+									</small>
+								{% endif %}
+							</div>
+						</div>
+					</a>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+
+	{{ paginate(listePosts, 'indexPage') }}
+{% endblock %}

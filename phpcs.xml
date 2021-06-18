@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ruleset name = "MonFramework">
+    <description>Mes règles de formattage</description>
+    <arg name="colors"/>
+    <arg value="p"/>
+
+    <file>App</file>
+    <file>Web</file>
+    <file>lib</file>
+
+    <rule ref="PSR2"></rule>
+
+    <rule ref="Generic.Files.LineEndings">
+        <properties>
+            <property name="eolChar" value="\r\n"/>
+        </properties>
+    </rule>
+</ruleset>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<routes>
+  <route url="/" module="Home" action="index" nom="accueil"></route>
+  <route url="/blog" module="Posts" action="index" nom="index"></route>
+  <route url="/blog\?p=([0-9]+)" module="Posts" action="index" vars="page" nom="indexPage"></route>
+  <route url="/blog/([a-z\-0-9]+)-([0-9]+)" module="Posts" action="show" vars="slug,id" nom="showPost"></route>
+  <route url="/commenter-([0-9]+)\.html" module="Posts" action="insertComment" vars="news" nom="insertComment"></route>
+</routes>
