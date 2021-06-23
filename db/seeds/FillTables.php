@@ -31,22 +31,36 @@ class FillTables extends AbstractSeed
         $this->table('user')
             ->insert($data)
             ->save();
+            
+        $data = [];                            
+        for ($i = 0; $i < 20; $i++) {                
+            $data[] = [
+                'idAuteur' => rand(1,5),
+                'titre' => $faker->sentence(),
+                'image' =>'assets/img/seed/' . $faker->image(__DIR__.'/../../Web/assets/img/seed', 640, 480, null, false), 
+                'chapo' => $faker->catchPhrase,
+                'contenu' => $faker->text(1000),
+                'slug' => $faker->slug(3),
+                'dateCreation' => $faker->dateTimeBetween('-2 years', 'now')->format('Y-m-d H:i:s'),
+                'dateModif' => $faker->dateTimeBetween('-2 years', 'now')->format('Y-m-d H:i:s')
+            ];
+        }
+        $this->table('post')
+            ->insert($data)
+            ->save();
 
-            $data = [];
-            for ($i = 0; $i < 20; $i++) {
-                $data[] = [
-                    'idAuteur' => rand(1,5),
-                    'titre' => $faker->sentence(),
-                    'image' => $faker->imageUrl(),
-                    'chapo' => $faker->catchPhrase,
-                    'contenu' => $faker->text(1000),
-                    'slug' => $faker->slug(3),
-                    'dateCreation' => $faker->dateTimeBetween('-2 years', 'now')->format('Y-m-d H:i:s'),
-                    'dateModif' => $faker->dateTimeBetween('-2 years', 'now')->format('Y-m-d H:i:s')
-                ];
-            }
-            $this->table('post')
-                ->insert($data)
-                ->save();
+        $data = [];                            
+        for ($i = 0; $i < 20; $i++) {                
+            $data[] = [
+                'idAuteur' => rand(1,5),
+                'idArticle' => rand(1,20),
+                'contenu' => $faker->text(200),
+                'dateCreation' => $faker->dateTimeBetween('-2 years', 'now')->format('Y-m-d H:i:s'),
+                'valid' => $faker->boolean
+            ];
+        }
+        $this->table('comment')
+        ->insert($data)
+        ->save();
     }
 }

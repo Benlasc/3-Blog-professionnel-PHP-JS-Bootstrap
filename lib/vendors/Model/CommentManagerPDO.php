@@ -41,6 +41,27 @@ class CommentManagerPDO extends CommentManager
         return $comments;
     }
 
+    public function getListOfValid($idArticle)
+    {
+        if (!ctype_digit($idArticle)) {
+            throw new \InvalidArgumentException('L\'identifiant de l\'article passé doit être un nombre entier valide');
+        }
+
+        $q = $this->dao->prepare('SELECT * FROM comment WHERE idArticle = :idArticle AND valid = 1');
+        $q->bindValue(':idArticle', $idArticle, \PDO::PARAM_INT);
+        $q->execute();
+
+        $q->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\Comment');
+
+        $comments = $q->fetchAll();
+
+        foreach ($comments as $comment) {
+            $comment->setDateCreation(new \DateTime($comment->dateCreation()));
+        }
+
+        return $comments;
+    }
+
     protected function modify(Comment $comment)
     {
         $q = $this->dao->prepare('UPDATE comment SET contenu = :contenu WHERE id = :id');

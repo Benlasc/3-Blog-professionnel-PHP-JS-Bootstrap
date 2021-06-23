@@ -68,4 +68,10 @@ abstract class BackController extends ApplicationComponent
 
         $this->page->setContentFile(__DIR__ . '/../../App/' . $this->app->name() . '/Modules/' . $this->module . '/Views/' . $this->view . '.twig');
     }
+
+    public function addView()
+    {
+        $vue='@'. $this->module.'/'.$this->action;
+        $this->page->addVar('vue', $vue);
+    }
 }

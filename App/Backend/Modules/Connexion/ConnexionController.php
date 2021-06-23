@@ -19,8 +19,9 @@ class ConnexionController extends BackController
                 $this->app->user()->setAuthenticated(true);
                 $this->app->httpResponse()->redirect('.');
             } else {
-                $this->app->user()->setFlash('Le pseudo ou le mot de passe est incorrect.');
+                $this->app->user()->setFlash('Le pseudo ou le mot de passe est incorrect.', 'alert alert-danger');
             }
         }
+        $this->addView();
     }
 }

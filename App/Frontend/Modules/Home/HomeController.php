@@ -17,7 +17,7 @@ class HomeController extends BackController
 
         // $this->page->addVar('title', 'Blog');
 
-        // On récupère le manager des news.
+        // On récupère le manager des articles.
         // $manager = $this->managers->getManagerOf('Post');
 
         // $page = $request->getData("page") ?? 1;
@@ -30,9 +30,7 @@ class HomeController extends BackController
         // On ajoute la variable $listePosts à la vue.
         // $this->page->addVar('listePosts', $listePosts);
 
-        $vue='@'. $this->module.'/'.$this->action;
-
-        $this->page->addVar('vue', $vue);
+        $this->addView();
     }
 
     public function executeShow(HTTPRequest $request)
@@ -80,7 +78,7 @@ class HomeController extends BackController
         $formHandler = new FormHandler($form, $this->managers->getManagerOf('Comment'), $request);
 
         if ($formHandler->process()) {
-            $this->app->user()->setFlash('Le commentaire a bien été ajouté, merci !');
+            $this->app->user()->setFlash('Le commentaire a bien été ajouté, merci !', "alert alert-success");
 
             $this->app->httpResponse()->redirect('news-' . $request->getData('news') . '.html');
         }

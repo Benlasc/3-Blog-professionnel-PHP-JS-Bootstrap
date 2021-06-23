@@ -54,36 +54,83 @@ class Router extends ApplicationComponent
      *
      * @return string|null
      */
+    // public function generateUri(string $name, array $vars = []): string|null
+    // {
+    //     foreach ($this->routes as $route) {
+    //         if ($route->name() == $name) {
+    //             if (!$vars) {
+    //                 return $this->app->httpRequest()->requestURI();
+    //             }
+
+    //             if (count($vars) == 1) {
+    //                 preg_match_all(
+    //                     "/\(.+\)/",
+    //                     $route->url(),
+    //                     $matches
+    //                 );
+    //             } else {
+    //                 preg_match_all(
+    //                     "/\(.+\)/U",
+    //                     $route->url(),
+    //                     $matches
+    //                 );
+    //             }
+
+    //             $url = $route->url();
+    //             $i = 0;
+    //             foreach ($matches[0] as $match) {
+    //                 $url = str_replace($match, $vars[$i], $url);
+    //                 $i++;
+    //             }
+
+    //             return str_replace("\\", "", $url);
+    //         }
+    //     }
+    //     return null;
+    // }
+
+
+    /**
+     * @param string $name
+     * @param array $vars
+     *
+     * generateUri("indexPage", [2])
+     * generateUri("showPost", [slug-test])
+     * generateUri("nomRoute", [5,"test"])
+     *
+     * @return string|null
+     */
     public function generateUri(string $name, array $vars = []): string|null
     {
         foreach ($this->routes as $route) {
             if ($route->name() == $name) {
-                if (!$vars) {
-                    return $this->app->httpRequest()->requestURI();
-                }
+                $url = $route->url();
+                $tab = [];
+                while ($p = strpos($url, "(")) {
+                    $g = "(";
+                    foreach (str_split(substr($url, $p + 1)) as $c) {
+                        if (substr_count($g, "(") != substr_count($g, ")")) {
+                            $g .= $c;
+                        } else {
+                            break;
+                        }
+                    }
 
-                if (count($vars) == 1) {
-                    preg_match_all(
-                        "/\(.+\)/",
-                        $route->url(),
-                        $matches
-                    );
-                } else {
-                    preg_match_all(
-                        "/\(.+\)/U",
-                        $route->url(),
-                        $matches
-                    );
+                    $tab[] = "/" . $g . "/";
+
+                    $url = str_replace($g, "", $url);
                 }
 
                 $url = $route->url();
-                $i = 0;
-                foreach ($matches[0] as $match) {
-                    $url = str_replace($match, $vars[$i], $url);
-                    $i++;
-                }
 
-                return str_replace("\\", "", $url);
+                foreach (array_combine($tab, $vars) as $regex => $value) {
+                    if (preg_match($regex, $value)) {
+                        $url = str_replace(substr($regex, 1, -1), $value, $url);
+                    } else {
+                        return null;
+                    }
+                }
+                return str_replace(["\?","\."], ["?","."], $url);
             }
         }
         return null;

@@ -11,7 +11,7 @@ class User extends ApplicationComponent
         return isset($_SESSION[$attr]) ? $_SESSION[$attr] : null;
     }
 
-    public function getFlash()
+    public function getFlash(): array
     {
         $flash = $_SESSION['flash'];
         unset($_SESSION['flash']);
@@ -44,8 +44,14 @@ class User extends ApplicationComponent
         $_SESSION['auth'] = $authenticated;
     }
 
-    public function setFlash($value)
+    /**
+     * @param string $message : alert message
+     * @param string $class : alert bootstrap class
+     *
+     * @return void
+     */
+    public function setFlash(string $message, string $class): void
     {
-        $_SESSION['flash'] = $value;
+        $_SESSION['flash'] = [$message,$class];
     }
 }

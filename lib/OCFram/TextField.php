@@ -6,6 +6,7 @@ class TextField extends Field
 {
     protected $cols;
     protected $rows;
+    protected $heightBootstrap;
 
     public function buildWidget()
     {
@@ -15,20 +16,10 @@ class TextField extends Field
             $widget .= $this->errorMessage . '<br />';
         }
 
-        $widget .= '<label>' . $this->label . '</label><textarea name="' . $this->name . '"';
-
-        if (!empty($this->cols)) {
-            $widget .= ' cols="' . $this->cols . '"';
-        }
-
-        if (!empty($this->rows)) {
-            $widget .= ' rows="' . $this->rows . '"';
-        }
-
-        $widget .= '>';
+        $widget .= '<div class="col-12"><label for="' . $this->name . '" floatingTextarea2" class="form-label">' . $this->label . '</label><textarea class="form-control" id="' . $this->name . '" name="'.$this->name().'" style="height: ' . $this->heightBootstrap . 'px">';
 
         if (!empty($this->value)) {
-            $widget .= htmlspecialchars($this->value);
+            $widget .= htmlspecialchars($this->value) . '</textarea></div>';
         }
 
         return $widget . '</textarea>';
@@ -49,6 +40,13 @@ class TextField extends Field
 
         if ($rows > 0) {
             $this->rows = $rows;
+        }
+    }
+
+    public function setHeightBootstrap(int $height)
+    {
+        if ($height > 0) {
+            $this->heightBootstrap = $height;
         }
     }
 }

@@ -2,14 +2,13 @@
 
 {% block content %}
 
-	<div class="container">
 		<h1 class="title">Bienvenue sur le blog</h1>
 		<div class="grid row row-cols-1 row-cols-md-3 g-4">
 			{% for post in listePosts %}
 				<div class="col">
 					<a href="blog/{{post.slug}}-{{post.id}}">
 						<div class="card h-100">
-							<img src={{post.image}} class="card-img-top" alt="...">
+							<img src="{{post.image}}" class="card-img-top" alt="...">
 							<div class="card-body">
 								<h5 class="card-title">{{post.titre}}</h5>
 								<p class="card-text">{{post.chapo}}</p>
@@ -30,7 +29,6 @@
 				</div>
 			{% endfor %}
 		</div>
-	</div>
-
 	{{ paginate(listePosts, 'indexPage') }}
+
 {% endblock %}

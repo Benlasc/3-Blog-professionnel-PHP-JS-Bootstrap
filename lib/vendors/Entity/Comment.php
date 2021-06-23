@@ -10,6 +10,7 @@ class Comment extends Entity
     protected $contenu;
     protected $dateCreation;
     protected $valid;
+    protected $auteur;
 
     const CONTENU_INVALIDE = 1;
 
@@ -49,6 +50,10 @@ class Comment extends Entity
         $this->valid = $valid;
     }
 
+    public function setAuteur(User $auteur)
+    {
+        $this->auteur = $auteur;
+    }
     // GETTERS //
 
     public function idAuteur()
@@ -74,5 +79,10 @@ class Comment extends Entity
     public function valid()
     {
         return $this->valid;
+    }
+
+    public function auteur()
+    {
+        return $this->auteur;
     }
 }

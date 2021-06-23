@@ -14,7 +14,7 @@ class Post extends Entity
     protected $slug;
     protected $dateCreation;
     protected $dateModif;
-
+    protected $auteur;
 
     const TITRE_INVALIDE = 1;
     const IMAGE_INVALIDE = 2;
@@ -90,6 +90,11 @@ class Post extends Entity
         $this->dateModif = $dateModif;
     }
 
+    public function setAuteur(string|array $auteur)
+    {
+        $this->auteur = $auteur;
+    }
+
     // GETTERS //
 
     public function idAuteur()
@@ -130,5 +135,10 @@ class Post extends Entity
     public function dateModif()
     {
         return $this->dateModif;
+    }
+
+    public function auteur()
+    {
+        return $this->auteur;
     }
 }

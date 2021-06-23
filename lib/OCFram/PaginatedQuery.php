@@ -2,6 +2,7 @@
 
 namespace OCFram;
 
+use Entity\Post;
 use Pagerfanta\Adapter\AdapterInterface;
 
 class PaginatedQuery implements AdapterInterface

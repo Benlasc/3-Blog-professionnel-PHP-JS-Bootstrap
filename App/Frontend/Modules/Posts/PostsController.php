@@ -17,22 +17,21 @@ class PostsController extends BackController
 
         $this->page->addVar('title', 'Blog');
 
-        // On récupère le manager des news.
+        // On récupère le manager des articles.
         $manager = $this->managers->getManagerOf('Post');
 
+        if ($request->getExists("page") and $request->getData("page")==1) {
+            $this->app->httpResponse()->redirect("/blog");
+        }
+
         $page = $request->getData("page") ?? 1;
-        
+
         $listePosts = $manager->findPaginated(8, $page);
         
-        // $listePosts = $manager->getList();
-
-
         // On ajoute la variable $listePosts à la vue.
         $this->page->addVar('listePosts', $listePosts);
 
-        $vue='@'. $this->module.'/'.$this->action;
-
-        $this->page->addVar('vue', $vue);
+        $this->addView();
     }
 
     public function executeShow(HTTPRequest $request)
@@ -48,15 +47,20 @@ class PostsController extends BackController
             $this->app->httpResponse()->redirect($url);
         }
 
-        $auteur = $this->managers->getManagerOf('user')->getUnique($post->idAuteur())->pseudo();
+        $auteur = $this->managers->getManagerOf('User')->getUnique($post->idAuteur())->pseudo();
 
+        $comments = $this->managers->getManagerOf('Comment')->getListOfValid($post->id());
+
+        foreach ($comments as $comment) {
+            $commentator = $this->managers->getManagerOf('User')->getUnique($comment->idAuteur());
+            $comment->setAuteur($commentator);
+        }
+        
         $this->page->addVar('auteur', $auteur);
+        $this->page->addVar('comments', $comments);
         $this->page->addVar('post', $post);
-        // $this->page->addVar('comments', $this->managers->getManagerOf('Comment')->getListOf($post->id()));
 
-        $vue='@'. $this->module.'/'.$this->action;
-
-        $this->page->addVar('vue', $vue);
+        $this->addView();
     }
 
     public function executeInsertComment(HTTPRequest $request)
@@ -80,7 +84,7 @@ class PostsController extends BackController
         $formHandler = new FormHandler($form, $this->managers->getManagerOf('Comment'), $request);
 
         if ($formHandler->process()) {
-            $this->app->user()->setFlash('Le commentaire a bien été ajouté, merci !');
+            $this->app->user()->setFlash('Le commentaire a bien été ajouté, merci !', "alert alert-success");
 
             $this->app->httpResponse()->redirect('news-' . $request->getData('news') . '.html');
         }

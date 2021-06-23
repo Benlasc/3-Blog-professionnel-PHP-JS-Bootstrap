@@ -3,6 +3,7 @@
 namespace OCFram;
 
 use OCFram\Twig\PagerFantaExtension;
+use OCFram\Twig\RouterTwigExtension;
 use Twig\Extension\DebugExtension;
 use Twig\Extra\Intl\IntlExtension;
 
@@ -18,9 +19,10 @@ class TwigRenderer extends ApplicationComponent implements RendererInterface
         parent::__construct($app);
         $this->loader = new \Twig\Loader\FilesystemLoader($path);
         $this->twig = new \Twig\Environment($this->loader, ['debug' => true]);
-        //$this->twig->addExtension(new DebugExtension());
+        $this->twig->addExtension(new DebugExtension());
         $this->twig->addExtension(new IntlExtension());
         $this->twig->addExtension(new PagerFantaExtension($this->app->router()));
+        $this->twig->addExtension(new RouterTwigExtension($this->app->router()));
     }
 
     /**
