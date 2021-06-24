@@ -54,52 +54,6 @@ class Router extends ApplicationComponent
      *
      * @return string|null
      */
-    // public function generateUri(string $name, array $vars = []): string|null
-    // {
-    //     foreach ($this->routes as $route) {
-    //         if ($route->name() == $name) {
-    //             if (!$vars) {
-    //                 return $this->app->httpRequest()->requestURI();
-    //             }
-
-    //             if (count($vars) == 1) {
-    //                 preg_match_all(
-    //                     "/\(.+\)/",
-    //                     $route->url(),
-    //                     $matches
-    //                 );
-    //             } else {
-    //                 preg_match_all(
-    //                     "/\(.+\)/U",
-    //                     $route->url(),
-    //                     $matches
-    //                 );
-    //             }
-
-    //             $url = $route->url();
-    //             $i = 0;
-    //             foreach ($matches[0] as $match) {
-    //                 $url = str_replace($match, $vars[$i], $url);
-    //                 $i++;
-    //             }
-
-    //             return str_replace("\\", "", $url);
-    //         }
-    //     }
-    //     return null;
-    // }
-
-
-    /**
-     * @param string $name
-     * @param array $vars
-     *
-     * generateUri("indexPage", [2])
-     * generateUri("showPost", [slug-test])
-     * generateUri("nomRoute", [5,"test"])
-     *
-     * @return string|null
-     */
     public function generateUri(string $name, array $vars = []): string|null
     {
         foreach ($this->routes as $route) {

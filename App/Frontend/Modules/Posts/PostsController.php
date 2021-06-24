@@ -49,27 +49,37 @@ class PostsController extends BackController
 
         $auteur = $this->managers->getManagerOf('User')->getUnique($post->idAuteur())->pseudo();
 
+        // Commentaires
+
         $comments = $this->managers->getManagerOf('Comment')->getListOfValid($post->id());
 
+        $comments_by_id = [];
         foreach ($comments as $comment) {
             $commentator = $this->managers->getManagerOf('User')->getUnique($comment->idAuteur());
             $comment->setAuteur($commentator);
+            $comments_by_id [$comment->id()] = $comment;
         }
-        
-        $this->page->addVar('auteur', $auteur);
-        $this->page->addVar('comments', $comments);
-        $this->page->addVar('post', $post);
 
-        $this->addView();
-    }
+        foreach ($comments as $k => $comment) {
+            if ($comment->idParent() != 0) {
+                $comments_by_id [$comment->idParent()] -> addChildren($comment);
+                unset($comments[$k]);
+            }
+        }
 
-    public function executeInsertComment(HTTPRequest $request)
-    {
-        // Si le formulaire a été envoyé.
         if ($request->method() == 'POST') {
+            $parent_id = ($request->postExists('parent_id')) ? $request->postData('parent_id') : 0 ;
+
+            if ($parent_id !=0) {
+                if ($this->managers->getManagerOf('Comment')->commentExist($parent_id) == false) {
+                    throw new \Exception('Ce parent n\'existe pas');
+                }
+            }
+
             $comment = new Comment([
-                'news' => $request->getData('news'),
-                'auteur' => $request->postData('auteur'),
+                'idAuteur' => 5, //à modifier plus tard
+                'idArticle' => $request->getData('id'),
+                'idParent' => $parent_id,
                 'contenu' => $request->postData('contenu')
             ]);
         } else {
@@ -84,13 +94,45 @@ class PostsController extends BackController
         $formHandler = new FormHandler($form, $this->managers->getManagerOf('Comment'), $request);
 
         if ($formHandler->process()) {
-            $this->app->user()->setFlash('Le commentaire a bien été ajouté, merci !', "alert alert-success");
-
-            $this->app->httpResponse()->redirect('news-' . $request->getData('news') . '.html');
+            $this->app->user()->setFlash('Votre commentaire est en attente de validation, merci !', "alert alert-success");
+            $url = $this->app->router()->generateUri("showPost", [$post->slug(), $post->id()]);
+            $this->app->httpResponse()->redirect($url.'#form');
         }
-
-        // $this->page->addVar('comment', $comment);
+        
+        $this->page->addVar('auteur', $auteur);
+        $this->page->addVar('comments', $comments);
+        $this->page->addVar('post', $post);
         $this->page->addVar('form', $form->createView());
-        $this->page->addVar('title', 'Ajout d\'un commentaire');
+
+        $this->addView();
     }
 }
+//     public function executeInsertComment(HTTPRequest $request)
+//     {
+//         // Si le formulaire a été envoyé.
+//         if ($request->method() == 'POST') {
+//             $comment = new Comment([
+//                 'news' => $request->getData('news'),
+//                 'auteur' => $request->postData('auteur'),
+//                 'contenu' => $request->postData('contenu')
+//             ]);
+//         } else {
+//             $comment = new Comment;
+//         }
+
+//         $formBuilder = new CommentFormBuilder($comment);
+//         $formBuilder->build();
+
+//         $form = $formBuilder->form();
+
+//         $formHandler = new FormHandler($form, $this->managers->getManagerOf('Comment'), $request);
+
+//         if ($formHandler->process()) {
+//             $this->app->user()->setFlash('Le commentaire a bien été ajouté, merci !', "alert alert-success");
+//         }
+
+//         // $this->page->addVar('comment', $comment);
+//         $this->page->addVar('form', $form->createView());
+//         $this->page->addVar('title', 'Ajout d\'un commentaire');
+//     }
+// }

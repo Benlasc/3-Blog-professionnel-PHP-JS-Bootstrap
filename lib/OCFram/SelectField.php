@@ -16,7 +16,7 @@ class SelectField extends Field
         $widget = '';
 
         if (!empty($this->errorMessage)) {
-            $widget .= $this->errorMessage . '<br />';
+            $widget .= '<div class="alert alert-danger" role="alert">' . $this->errorMessage . '</div>';
         }
 
         $widget .='<div class="col-12"><label class="form-label" for='.$this->name.' >Auteur</label><select class="form-select form-select-sm" id ="'.$this->name.'" name="'.$this->name.'" aria-label=".form-select-sm example">';

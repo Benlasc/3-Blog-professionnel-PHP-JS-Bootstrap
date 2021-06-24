@@ -134,12 +134,12 @@ class PostsController extends BackController
 
     /**
      * @param Post|null $post=null
-     * 
+     *
      * @return array
      * Renvoie un tableau contenant toutes les instances Users.
      * Si l'instance $post est fournie, le tableau retourné aura comme premier élément l'auteur de l'instance $post
      */
-    private function authorsList(?Post $post=null) : array
+    private function authorsList(?Post $post = null) : array
     {
         if ($post) {
             $usersManager = $this->managers->getManagerOf('User');
@@ -151,7 +151,7 @@ class PostsController extends BackController
                 }
             }
             return $authors;
-        }else {
+        } else {
             $usersManager = $this->managers->getManagerOf('User');
             $authors = $usersManager->getList();
             return $authors;
@@ -193,12 +193,10 @@ class PostsController extends BackController
                     $authors = $this->authorsList($post);
                     $post->setAuteur($authors);
                 }
-
-            }elseif ($_FILES['image']['error']) {
+            } elseif ($_FILES['image']['error']) {
                 $authors = $this->authorsList();
                 $post->setAuteur($authors);
             }
-
         } else {
             // L'identifiant de l'article est transmis si on veut la modifier
             if ($request->getExists('id')) {

@@ -13,16 +13,18 @@ class TextField extends Field
         $widget = '';
 
         if (!empty($this->errorMessage)) {
-            $widget .= $this->errorMessage . '<br />';
+            $widget .= '<div class="alert alert-danger" role="alert">' . $this->errorMessage . '</div>';
         }
 
-        $widget .= '<div class="col-12"><label for="' . $this->name . '" floatingTextarea2" class="form-label">' . $this->label . '</label><textarea class="form-control" id="' . $this->name . '" name="'.$this->name().'" style="height: ' . $this->heightBootstrap . 'px">';
+        $required = ($this->required()) ? 'required' : '' ;
+
+        $widget .= '<div class="col-12"><label for="' . $this->name . '" floatingTextarea2" class="form-label">' . $this->label . '</label><textarea class="form-control" id="' . $this->name . '" name="'.$this->name().'" style="height: ' . $this->heightBootstrap . 'px" '.$required.' >';
 
         if (!empty($this->value)) {
             $widget .= htmlspecialchars($this->value) . '</textarea></div>';
         }
 
-        return $widget . '</textarea>';
+        return $widget . '</textarea></div>';
     }
 
     public function setCols($cols)

@@ -58,4 +58,34 @@ window.addEventListener('DOMContentLoaded', event => {
 if (url == "http://monsite.fr/" || regex.test(url)) {
     button.classList.toggle('home');
 }
-});
+
+    var btn_reply_comment = document.body.getElementsByClassName("reply");
+
+    var form = document.getElementById('form-comment');
+
+for (element of btn_reply_comment) {
+    element.addEventListener('click',function () {
+            
+        if (document.getElementById('form-clone')) {
+            document.getElementById('form-clone').remove();
+        }
+        var form_clone = form.cloneNode(true);
+        form_clone.id="form-clone";
+        var parent_id = this.getAttribute('data-id');
+        var comment = document.getElementById('comment-'+ parent_id);
+        var input_hidden = document.getElementById('parent_id');
+        var input_hidden_clone = form_clone.firstElementChild;
+        comment.insertAdjacentElement("afterEnd",form_clone);
+        form_clone.querySelector('#contenu').select()
+        form_clone.querySelector('label').innerHTML="Répondre à ce commentaire"
+        input_hidden.value = parent_id;
+        input_hidden_clone.value = parent_id;
+    });
+}
+
+    form.addEventListener('click', function () {
+        document.getElementById('form-clone').remove();
+
+    });
+
+})

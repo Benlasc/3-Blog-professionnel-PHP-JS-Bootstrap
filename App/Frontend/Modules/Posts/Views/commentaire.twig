@@ -1,0 +1,30 @@
+    <div class="comment" id="comment-{{comment.id}}">
+        <div class="comment__header">
+            <div class="image">
+                <img src="/assets/img/avatars/commentaire.jpg" alt="Avatar">
+            </div>
+            <div class="header">
+                <div class="pseudo">
+                    <span>{{comment.auteur.pseudo}}</span>
+                </div>
+                <div class="date">
+                    {{comment.dateCreation|format_datetime(locale='fr',pattern="'Le' d MMMM yyyy 'à' H'h'm")}}
+                </div>
+            </div>
+        </div>
+        <p class="comment__body">
+            {{comment.contenu}}
+        </p>
+        <div><button type="button" class="btn btn-primary reply" data-id="{{comment.id}}">Répondre</button></div>
+    </div>
+
+    <div style="margin-left: 50px;">
+        {% if comment.children is not null %}
+                {% for comment in comment.children %}
+                    {% include "@Posts/commentaire.twig" %}
+                {% endfor %}
+        {% endif %}
+    </div>
+    
+    
+    

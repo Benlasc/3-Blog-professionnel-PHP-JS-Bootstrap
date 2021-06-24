@@ -79,13 +79,6 @@
         {% endif %}
         
         <div class="{% if url !='/' %}content{% endif %} container">
-			{% if user.hasFlash() %}
-				{% set flash = user.getFlash() %}
-
-				<div class="{{ flash[1] }}" role="alert">
-					{{ flash[0] }}
-				</div>
-			{% endif %}
 			{% block content %}{% endblock %}
 		</div>
 

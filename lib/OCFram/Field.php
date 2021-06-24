@@ -11,6 +11,7 @@ abstract class Field
     protected $name;
     protected $validators = [];
     protected $value;
+    protected bool $required = false;
 
     public function __construct(array $options = [])
     {
@@ -58,6 +59,11 @@ abstract class Field
         return $this->value;
     }
 
+    public function required()
+    {
+        return $this->required;
+    }
+
     public function setLabel($label)
     {
         if (is_string($label)) {
@@ -95,5 +101,10 @@ abstract class Field
         if (is_string($value)) {
             $this->value = $value;
         }
+    }
+
+    public function setRequired(bool $required)
+    {
+        $this->required = $required;
     }
 }

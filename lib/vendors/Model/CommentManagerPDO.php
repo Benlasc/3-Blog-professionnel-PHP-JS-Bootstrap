@@ -8,11 +8,12 @@ class CommentManagerPDO extends CommentManager
 {
     protected function add(Comment $comment)
     {
-        $q = $this->dao->prepare('INSERT INTO comment SET idAuteur = :idAuteur, idArticle = :idArticle, contenu = :contenu, 
-                                  dateCreation = NOW(), valid = False');
+        $q = $this->dao->prepare('INSERT INTO comment SET idAuteur = :idAuteur, idArticle = :idArticle, idParent = :idParent, contenu = :contenu, 
+                                  dateCreation = NOW(), valid = True');
 
         $q->bindValue(':idAuteur', $comment->idAuteur(), \PDO::PARAM_INT);
         $q->bindValue(':idArticle', $comment->idArticle());
+        $q->bindValue(':idParent', $comment->idParent());
         $q->bindValue(':contenu', $comment->contenu());
 
         $q->execute();
@@ -85,6 +86,17 @@ class CommentManagerPDO extends CommentManager
             return $comment;
         }
         return null;
+    }
+
+    public function commentExist($id)
+    {
+        $q = $this->dao->prepare('SELECT id FROM comment WHERE id = :id');
+        $q->bindValue(':id', (int) $id, \PDO::PARAM_INT);
+        $q->execute();
+
+        $q->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\Comment');
+
+        return $q->fetch();
     }
 
     public function delete($id)

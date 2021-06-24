@@ -5,20 +5,48 @@
 
 {# {{post.chapo}} #}
 
-{% block title %}{{post.titre}}{% endblock %}
-
-{% block content %}
-
-        <article>
-            <h2 class="title">{{post.titre}}</h2>
-
-            <img class = "blog_image" src="/{{post.image}}" width="600" height="400" alt="">
-    
-            <p class="infoblog">
-                {{post.dateCreation|format_datetime(locale='fr',pattern="'Le' d MMMM yyyy 'à' H'h'm")}} | Par {{auteur}}
-            </p>
-
-            <p>{{post.contenu | nl2br}}</p>
-        </article>
-
+	{% block title %}
+{{post.titre}}
 {% endblock %}
+
+	{% block content %}
+
+		<article>
+			<h2 class="title"> {{post.titre}}</h2>
+
+		<img class="blog_image" src="/{{post.image}}" width="600" height="400" alt="">
+
+		<p class="infoblog">
+			{{post.dateCreation|format_datetime(locale='fr',pattern="'Le' d MMMM yyyy 'à' H'h'm")}}
+			| Par
+			{{auteur}}
+		</p>
+
+		<p>{{post.contenu | nl2br}}</p>
+	</article>
+
+	<h2 class="title">Les commentaires test</h2>
+
+	{% if user.hasFlash() %}
+		{% set flash = user.getFlash() %}
+
+		<div class="{{ flash[1] }}" role="alert">
+			{{ flash[0] }}
+		</div>
+	{% endif %}
+
+    <span id="form" class="anchor"></span>
+	<form class="row g-3" id="form-comment" action="" method="post" enctype="multipart/form-data">
+		<input type="hidden" id="parent_id" name="parent_id" value="0"/>
+		{{form | raw}}
+
+			<div class="col-12 submit">
+				<button type="submit" class="btn btn-primary">Enregristrer</button>
+			</div>
+		</form>
+
+		{% for comment in comments %}
+			{% include "@Posts/commentaire.twig" %}
+		{% endfor %}
+
+	{% endblock %}

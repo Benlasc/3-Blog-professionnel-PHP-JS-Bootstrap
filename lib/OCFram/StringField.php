@@ -11,7 +11,7 @@ class StringField extends Field
         $widget = '';
 
         if (!empty($this->errorMessage)) {
-            $widget .= $this->errorMessage . '<br />';
+            $widget .= '<div class="alert alert-danger" role="alert">' . $this->errorMessage . '</div>';
         }
 
         $widget .='<div class="col-12"><label for=' . $this->name . ' class="form-label">'. $this->label .'</label><input type="text"class="form-control" id=' . $this->name . ' name="' . $this->name . '"';
