@@ -14,7 +14,9 @@ class StringField extends Field
             $widget .= '<div class="alert alert-danger" role="alert">' . $this->errorMessage . '</div>';
         }
 
-        $widget .='<div class="col-12"><label for=' . $this->name . ' class="form-label">'. $this->label .'</label><input type="text"class="form-control" id=' . $this->name . ' name="' . $this->name . '"';
+        $required = ($this->required()) ? 'required' : '' ;
+
+        $widget .='<div class="col-12"><label for=' . $this->name . ' class="form-label">'. $this->label .'</label><input type="text" class="form-control" id=' . $this->name . ' name="' . $this->name . '"';
 
         if (!empty($this->value)) {
             $widget .= ' value="' . htmlspecialchars($this->value) . '"';
@@ -24,7 +26,7 @@ class StringField extends Field
             $widget .= ' maxlength="' . $this->maxLength . '"';
         }
 
-        return $widget .= ' /></div>';
+        return $widget .= $required . ' /></div>';
     }
 
     public function setMaxLength($maxLength)

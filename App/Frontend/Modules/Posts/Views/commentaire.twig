@@ -1,7 +1,7 @@
     <div class="comment" id="comment-{{comment.id}}">
         <div class="comment__header">
             <div class="image">
-                <img src="/assets/img/avatars/commentaire.jpg" alt="Avatar">
+                <img src="/{{comment.auteur.avatar() ? comment.auteur.avatar() : 'assets/img/avatars/commentaire.jpg'}}" alt="Avatar">
             </div>
             <div class="header">
                 <div class="pseudo">
@@ -15,7 +15,34 @@
         <p class="comment__body">
             {{comment.contenu}}
         </p>
-        <div><button type="button" class="btn btn-primary reply" data-id="{{comment.id}}">Répondre</button></div>
+        <div>
+            {% if comment.depth()<2 and user.isAuthenticated()%}
+                <button type="button" class="btn btn-primary reply" data-id="{{comment.id}}">Répondre</button>
+            {% endif %}
+            
+            {% if user.isAdmin() %}
+
+                <a data-bs-toggle="modal" data-bs-target="#Modal-{{comment.id}}" class="btn btn-danger">Supprimer</button></a>
+
+                <!-- Modal -->
+                <div class="modal fade" id="Modal-{{comment.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Voulez-vous vraiment supprimer ce commentaire ?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                <a href="{{ path("commentDelete", {id:comment.id,token:user.getAttribute('token')}) }}" type="button" class="btn btn-primary">Supprimer le commentaire</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+          </div>
     </div>
 
     <div style="margin-left: 50px;">

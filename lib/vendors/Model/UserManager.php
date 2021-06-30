@@ -42,10 +42,10 @@ abstract class UserManager extends Manager
      * @see self::modify()
      * @return void
      */
-    public function save(User $user)
+    public function save(User $user, bool $passwordUpdate = true)
     {
         if ($user->isValid()) {
-            $user->isNew() ? $this->add($user) : $this->modify($user);
+            $user->isNew() ? $this->add($user) : $this->modify($user, $passwordUpdate);
         } else {
             throw new \RuntimeException('L\'utilisateur doit être validé pour être enregistré');
         }
@@ -56,7 +56,7 @@ abstract class UserManager extends Manager
      * @param $user le user à modifier
      * @return void
      */
-    abstract protected function modify(User $user);
+    abstract protected function modify(User $user, bool $passwordUpdate);
 
     /**
      * Méthode permettant de supprimer un user.

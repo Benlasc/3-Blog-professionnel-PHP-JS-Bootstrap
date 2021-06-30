@@ -11,7 +11,8 @@ class FrontendApplication extends Application
     {
         parent::__construct();
         $this->name = 'Frontend';
-        $this->renderer = new TwigRenderer($this, "../App/Frontend/Templates");
+        //$this->renderer = new TwigRenderer($this, "../App/Frontend/Templates");
+        $this->renderer->addPath("../App/Frontend/Templates");
     }
 
     public function run()

@@ -14,7 +14,12 @@ CREATE TABLE user (
     mail VARCHAR(60) NOT NULL,
     dateInscription DATETIME NOT NULL,
     admin BOOLEAN NOT NULL DEFAULT FALSE,
-    password BINARY(60) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    confirmed BOOLEAN NOT NULL DEFAULT FALSE,
+    confirmationToken VARCHAR(60) DEFAULT NULL,
+    resetToken VARCHAR(60) DEFAULT NULL,
+    resetAt DATETIME DEFAULT NULL,
+    avatar VARCHAR(100) NOT NULL,
     PRIMARY KEY (id)
 ) ENGINE = InnoDB;
 
@@ -35,10 +40,11 @@ CREATE TABLE comment (
     id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
     idAuteur SMALLINT UNSIGNED DEFAULT NULL,
     idArticle SMALLINT UNSIGNED NOT NULL,
-    idParent SMALLINT UNSIGNED DEFAULT 0,
+    idParent SMALLINT UNSIGNED DEFAULT NULL,
     contenu TEXT NOT NULL,
     dateCreation DATETIME NOT NULL,
     valid BOOLEAN NOT NULL DEFAULT FALSE,
+    depth SMALLINT UNSIGNED DEFAULT 0,
     PRIMARY KEY (id)
 ) ENGINE = InnoDB;
 
@@ -53,3 +59,7 @@ ADD CONSTRAINT fk_id_article FOREIGN KEY (idArticle) REFERENCES post (id) ON DEL
 
 ALTER TABLE comment
 ADD CONSTRAINT fk_id_parent FOREIGN KEY (idParent) REFERENCES comment (id) ON DELETE CASCADE;
+
+CREATE UNIQUE INDEX ind_uni_pseudo ON user (pseudo); 
+
+CREATE UNIQUE INDEX ind_uni_mail ON user (mail); 

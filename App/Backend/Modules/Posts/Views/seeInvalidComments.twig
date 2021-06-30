@@ -1,0 +1,59 @@
+{% extends 'layout.twig' %}
+
+{% block title %}"Gestion des articles"
+{% endblock %}
+
+{% block content %}
+
+	<a href="{{ path("postCreate") }}" type="button" class="btn btn-primary">Ajouter un article</a>
+
+	<a href="{{ path("index") }}" type="button" class="btn btn-primary">Voir les articles</a>    
+    
+
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Article</th>
+				<th>Auteur du commentaire</th>
+				<th>Date d'ajout</th>
+				<th>Contenu</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for comment in invalidComments %}
+				<tr>
+					<td>{{comment.urlArticle | raw}}</td>
+					<td>{{comment.auteurComment}}</td>
+					<td>{{comment.dateCreation | format_datetime(locale='fr',pattern="'le' d MMMM yyyy 'à' H'h'm")}}</td>
+					<td>{{comment.contenu}}</td>
+					<td>
+						<a href="{{ path("validComment", {id:comment.id}) }}"><img src="/assets/img/admin/valid.png" alt="Valider"/></a>
+						<a data-bs-toggle="modal" data-bs-target="#Modal">
+							<img src="/assets/img/admin/delete.png" alt="Supprimer"/>
+						</a>
+
+						<!-- Modal -->
+						<div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body">
+										Voulez-vous vraiment supprimer ce commentaire ?
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+										<a href="{{ path("commentDelete", {id:comment.id,token:user.getAttribute('token')}) }}" type="button" class="btn btn-primary">Supprimer le commentaire</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+{% endblock %}

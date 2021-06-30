@@ -20,6 +20,7 @@ abstract class Application
         $this->config = new Config($this);
         $this->name = '';
         $this->router = new Router($this);
+        $this->renderer = new TwigRenderer($this, __DIR__.'/../../Errors');
     }
 
     public function getController()

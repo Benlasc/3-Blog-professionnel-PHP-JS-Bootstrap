@@ -29,6 +29,10 @@
 				</div>
 			{% endfor %}
 		</div>
-	{{ paginate(listePosts, 'indexPage') }}
+
+        {% if post %}
+	        {{ paginate(listePosts, 'indexPage') }}        
+        {% endif %}
+        
 
 {% endblock %}

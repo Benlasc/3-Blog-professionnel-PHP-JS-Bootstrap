@@ -5,6 +5,7 @@ namespace App\Frontend\Modules\Posts;
 use \OCFram\BackController;
 use \OCFram\HTTPRequest;
 use \Entity\Comment;
+use Entity\User;
 use \FormBuilder\CommentFormBuilder;
 use \OCFram\FormHandler;
 
@@ -47,7 +48,13 @@ class PostsController extends BackController
             $this->app->httpResponse()->redirect($url);
         }
 
-        $auteur = $this->managers->getManagerOf('User')->getUnique($post->idAuteur())->pseudo();
+        $auteur = $this->managers->getManagerOf('User')->getUnique($post->idAuteur());
+
+        if ($auteur) {
+            $auteur = $auteur->pseudo();
+        } else {
+            $auteur = 'un ancien utilisateur du site';
+        }
 
         // Commentaires
 
@@ -56,7 +63,11 @@ class PostsController extends BackController
         $comments_by_id = [];
         foreach ($comments as $comment) {
             $commentator = $this->managers->getManagerOf('User')->getUnique($comment->idAuteur());
-            $comment->setAuteur($commentator);
+            if ($commentator) {
+                $comment->setAuteur($commentator);
+            } else {
+                $comment->setAuteur(new User(['pseudo' => 'Un ancien utilisateur']));
+            }
             $comments_by_id [$comment->id()] = $comment;
         }
 
@@ -68,20 +79,43 @@ class PostsController extends BackController
         }
 
         if ($request->method() == 'POST') {
+            if (!$this->app->user()->isAuthenticated()) {
+                $this->app->user()->setFlash('Vous devez être connecté pour poster un commentaire', "alert alert-danger");
+                $url = $this->app->router()->generateUri("showPost", [$post->slug(), $post->id()]);
+                $this->app->httpResponse()->redirect($url.'#form');
+            }
+            
             $parent_id = ($request->postExists('parent_id')) ? $request->postData('parent_id') : 0 ;
+            $depth = 0;
 
             if ($parent_id !=0) {
                 if ($this->managers->getManagerOf('Comment')->commentExist($parent_id) == false) {
                     throw new \Exception('Ce parent n\'existe pas');
                 }
+
+                $depthParent = $this->managers->getManagerOf('comment')->get($parent_id)->depth();
+
+                if ($depthParent >= 2) {
+                    $this->app->user()->setFlash('Vous ne pouvez pas répondre à ce commentaire', "alert alert-danger");
+                    $url = $this->app->router()->generateUri("showPost", [$post->slug(), $post->id()]);
+                    $this->app->httpResponse()->redirect($url.'#form');
+                }
+
+                $depth = $depthParent + 1;
             }
 
             $comment = new Comment([
-                'idAuteur' => 5, //à modifier plus tard
+                'idAuteur' => $this->app->user()->getAttribute('user_id'),
                 'idArticle' => $request->getData('id'),
                 'idParent' => $parent_id,
-                'contenu' => $request->postData('contenu')
+                'contenu' => $request->postData('contenu'),
+                'depth' => $depth
             ]);
+            
+            $comment->auteurAdmin = false;
+            if ($this->app->user()->isAdmin()) {
+                $comment->auteurAdmin = true;
+            }
         } else {
             $comment = new Comment;
         }
@@ -91,10 +125,12 @@ class PostsController extends BackController
 
         $form = $formBuilder->form();
 
-        $formHandler = new FormHandler($form, $this->managers->getManagerOf('Comment'), $request);
+        $formHandler = new FormHandler($form, $this->managers->getManagerOf('Comment'), $request, $this->app->user());
 
         if ($formHandler->process()) {
-            $this->app->user()->setFlash('Votre commentaire est en attente de validation, merci !', "alert alert-success");
+            if (!$this->app->user()->isAdmin()) {
+                $this->app->user()->setFlash('Votre commentaire est en attente de validation, merci !', "alert alert-success");
+            }
             $url = $this->app->router()->generateUri("showPost", [$post->slug(), $post->id()]);
             $this->app->httpResponse()->redirect($url.'#form');
         }
@@ -107,32 +143,3 @@ class PostsController extends BackController
         $this->addView();
     }
 }
-//     public function executeInsertComment(HTTPRequest $request)
-//     {
-//         // Si le formulaire a été envoyé.
-//         if ($request->method() == 'POST') {
-//             $comment = new Comment([
-//                 'news' => $request->getData('news'),
-//                 'auteur' => $request->postData('auteur'),
-//                 'contenu' => $request->postData('contenu')
-//             ]);
-//         } else {
-//             $comment = new Comment;
-//         }
-
-//         $formBuilder = new CommentFormBuilder($comment);
-//         $formBuilder->build();
-
-//         $form = $formBuilder->form();
-
-//         $formHandler = new FormHandler($form, $this->managers->getManagerOf('Comment'), $request);
-
-//         if ($formHandler->process()) {
-//             $this->app->user()->setFlash('Le commentaire a bien été ajouté, merci !', "alert alert-success");
-//         }
-
-//         // $this->page->addVar('comment', $comment);
-//         $this->page->addVar('form', $form->createView());
-//         $this->page->addVar('title', 'Ajout d\'un commentaire');
-//     }
-// }

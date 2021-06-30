@@ -22,7 +22,7 @@ class Page extends ApplicationComponent
             throw new \RuntimeException('La vue spécifiée n\'existe pas');
         }
      
-        $vue = array_pop($this->vars);
+        $vue = array_pop($this->vars) ?: '404';
 
         $vars = array_merge(
             ['user'=>$this->app->user()],
@@ -30,6 +30,7 @@ class Page extends ApplicationComponent
         );
 
         echo $this->app()->renderer()->render($vue, $vars);
+        //echo $this->app()->renderer()->render('404', $vars);
 
         // ob_start();
         // require $this->contentFile;

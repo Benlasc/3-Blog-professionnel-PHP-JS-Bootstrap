@@ -1,6 +1,7 @@
 <?php
 namespace Entity;
 
+use DateTime;
 use \OCFram\Entity;
 
 class User extends Entity
@@ -12,6 +13,12 @@ class User extends Entity
     protected $dateInscription;
     protected $admin;
     protected $password;
+    protected $passwordCheck;
+    protected $confirmed;
+    protected $confirmationToken;
+    protected $resetToken;
+    protected $resetAt;
+    protected $avatar;
 
     const PSEUDO_INVALIDE = 1;
     const NOM_INVALIDE = 2;
@@ -82,6 +89,40 @@ class User extends Entity
         $this->password = $password;
     }
 
+    public function setPasswordCheck($passwordCheck)
+    {
+        if (!is_string($passwordCheck) || empty($passwordCheck)) {
+            $this->erreurs[] = self::PASSWORD_INVALIDE;
+        }
+
+        $this->passwordCheck = $passwordCheck;
+    }
+
+    public function setConfirmed(bool $confirmed)
+    {
+        $this->confirmed = $confirmed;
+    }
+
+    public function setAvatar(string|null $avatar)
+    {
+        $this->avatar = $avatar;
+    }
+    
+    public function setConfirmationToken(string|null $confirmationToken)
+    {
+        $this->confirmationToken = $confirmationToken;
+    }
+
+    public function setResetToken(string|null $resetToken)
+    {
+        $this->resetToken = $resetToken;
+    }
+
+    public function setResetAt(\DateTime|null $resetAt)
+    {
+        $this->resetAt = $resetAt;
+    }
+
     // GETTERS //
 
     public function pseudo()
@@ -117,5 +158,35 @@ class User extends Entity
     public function password()
     {
         return $this->password;
+    }
+
+    public function passwordCheck()
+    {
+        return $this->passwordCheck;
+    }
+
+    public function confirmed()
+    {
+        return $this->confirmed;
+    }
+
+    public function avatar()
+    {
+        return $this->avatar;
+    }
+
+    public function confirmationToken()
+    {
+        return $this->confirmationToken;
+    }
+
+    public function resetToken()
+    {
+        return $this->resetToken;
+    }
+
+    public function resetAt()
+    {
+        return $this->resetAt;
     }
 }

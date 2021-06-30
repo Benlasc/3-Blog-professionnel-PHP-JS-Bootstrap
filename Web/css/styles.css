@@ -626,7 +626,7 @@ progress {
 }
 @media (min-width: 1200px) {
   .container-xl, .container-lg, .container-md, .container-sm, .container {
-    max-width: 1140px;
+    max-width: 1199px;
   }
 }
 @media (min-width: 1400px) {
@@ -4088,6 +4088,7 @@ textarea.form-control-lg {
   }
   .navbar-expand-lg .navbar-nav {
     flex-direction: row;
+    align-items: center;
   }
   .navbar-expand-lg .navbar-nav .dropdown-menu {
     position: absolute;
@@ -5372,7 +5373,7 @@ textarea.form-control-lg {
 }
 @media (min-width: 1200px) {
   .modal-xl {
-    max-width: 1140px;
+    max-width: 1199px;
   }
 }
 .modal-fullscreen {
@@ -11438,4 +11439,97 @@ td a{
     margin-top: -150px !important;
     /*same height as header*/
     visibility: hidden;
+}
+
+.avatar img{
+    border-radius: 50%;
+    max-width: 30px;
+}
+
+.modal-dialog{
+    max-width: 550px;
+}
+
+.passwordForget{
+    cursor: pointer;
+    color: inherit;
+}
+
+/* Page 404 */
+
+#notfound {
+    position: relative;
+    height: 75vh
+}
+
+#notfound .notfound {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%)
+}
+
+.notfound {
+    max-width: 410px;
+    width: 100%;
+    text-align: center
+}
+
+.notfound .notfound-404 {
+    height: 280px;
+    position: relative;
+    z-index: -1
+}
+
+.notfound .notfound-404 h1 {
+    font-family: montserrat,sans-serif;
+    font-size: 230px;
+    margin: 0;
+    font-weight: 900;
+    position: absolute;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+    background: url(../assets/img/bg_error.jpg) no-repeat;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: cover;
+    background-position: center;
+}
+
+.notfound h2 {
+    font-family: montserrat,sans-serif;
+    color: #000;
+    font-size: 24px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-top: 0
+}
+
+.notfound a {
+    font-family: montserrat,sans-serif;
+    font-size: 14px;
+    text-decoration: none;
+    text-transform: uppercase;
+    background: #ffc800;
+    display: inline-block;
+    padding: 15px 30px;
+    border-radius: 40px;
+    color: #fff;
+    font-weight: 700;
+    -webkit-box-shadow: 0 4px 15px -5px #0046d5;
+    box-shadow: 0 4px 15px -5px #0046d5
+}
+
+@media only screen and (max-width: 767px) {
+    .notfound .notfound-404 {
+        height:142px
+    }
+
+    .notfound .notfound-404 h1 {
+        font-size: 112px
+    }
 }

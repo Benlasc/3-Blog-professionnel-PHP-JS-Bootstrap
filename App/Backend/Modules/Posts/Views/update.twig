@@ -6,6 +6,7 @@
 
     	<h2>Modifier un article</h2>
 		<form class="row g-3" action="" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="token" value="{{user.getAttribute('token')}}">
 			{{form | raw}}
 
             <div class="col-12 submit">

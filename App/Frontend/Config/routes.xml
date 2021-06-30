@@ -4,5 +4,13 @@
   <route url="/blog" module="Posts" action="index" nom="index"></route>
   <route url="/blog\?p=([0-9]+)" module="Posts" action="index" vars="page" nom="indexPage"></route>
   <route url="/blog/([a-z\-0-9]+)-([0-9]+)" module="Posts" action="show" vars="slug,id" nom="showPost"></route>
-  <!-- <route url="/commenter-([0-9]+)\.html" module="Posts" action="insertComment" vars="news" nom="insertComment"></route> -->
+  <route url="/admin/comment-delete-([0-9]+)-([0-9a-zA-Z]+)" module="Posts" action="deleteComment" vars="id,token" nom="commentDelete"></route>
+  <route url="/inscription" module="connexion" action="addUser" nom="inscription"></route>
+  <route url="/connexion" module="connexion" action="connectUser" nom="connexion"></route>
+  <route url="/deconnexion" module="connexion" action="deconnectUser" nom="deconnexion"></route>
+  <route url="/compte" module="connexion" action="seeAccount" nom="seeAccount"></route>
+  <route url="/activation-([0-9]+)-([0-9a-zA-Z]+)" module="connexion" action="confirmAccount" vars="id,token" nom="confirmAccount"></route>
+  <route url="/password-forget" module="connexion" action="passwordForget" nom="passwordForget"></route>
+  <route url="/password-reset-([0-9]+)-([0-9a-zA-Z]+)" module="connexion" action="passwordReset" vars="id,token" nom="passwordReset"></route>
+  
 </routes>

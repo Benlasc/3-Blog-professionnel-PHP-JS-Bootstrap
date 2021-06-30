@@ -11,6 +11,7 @@ class Comment extends Entity
     protected $contenu;
     protected $dateCreation;
     protected $valid;
+    protected $depth;
     protected $auteur;
     protected $children = [];
 
@@ -57,15 +58,18 @@ class Comment extends Entity
         $this->valid = $valid;
     }
 
+    public function setDepth(int $depth)
+    {
+        if ($depth > 2) {
+            throw new \InvalidArgumentException('La profondeur du commentaire doit être inférieure ou égale à 2');
+        }
+        $this->depth = $depth;
+    }
+
     public function setAuteur(User $auteur)
     {
         $this->auteur = $auteur;
     }
-
-    // public function setChildren(array $children)
-    // {
-    //     $this->children = $children;
-    // }
 
     public function addChildren(Comment $comment)
     {
@@ -102,6 +106,11 @@ class Comment extends Entity
     public function valid()
     {
         return $this->valid;
+    }
+
+    public function depth()
+    {
+        return $this->depth;
     }
 
     public function auteur()

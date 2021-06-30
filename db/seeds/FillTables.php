@@ -25,7 +25,8 @@ class FillTables extends AbstractSeed
                 'mail' => $faker->email,
                 'dateInscription' => $faker->dateTimeBetween('-2 years', 'now')->format('Y-m-d H:i:s'),
                 'admin' => $faker->boolean,
-                'password' => $faker->password(7, 7)
+                'password' => $faker->password(7, 7),
+                'confirmed' => 1
             ];
         }
         $this->table('user')

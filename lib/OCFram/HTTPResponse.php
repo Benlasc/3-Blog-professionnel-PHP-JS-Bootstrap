@@ -20,7 +20,7 @@ class HTTPResponse extends ApplicationComponent
     public function redirect404()
     {
         $this->page = new Page($this->app);
-        $this->page->setContentFile(__DIR__.'/../../Errors/404.html');
+        $this->page->setContentFile(__DIR__.'/../../Errors/404.twig');
       
         $this->addHeader('HTTP/1.0 404 Not Found');
       

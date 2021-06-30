@@ -1,57 +1,65 @@
 {% extends 'layout.twig' %}
 
-{% block title %}"Gestion des articles"{% endblock %}
+{% block title %}"Gestion des articles"
+{% endblock %}
 
 {% block content %}
 
-    <a href="{{ path("postCreate") }}" type="button" class="btn btn-primary">Ajouter un article</a>
+	<a href="{{ path("postCreate") }}" type="button" class="btn btn-primary">Ajouter un article</a>
 
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Auteur</th>
-                    <th>Titre</th>
-                    <th>Date d'ajout</th>
-                    <th>Dernière modification</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for post in listePosts %}
-                    <tr>
-                        <td>{{post.auteur}}</td>
-                        <td>{{post.titre}}</td>
-                        <td>{{post.dateCreation | format_datetime(locale='fr',pattern="'le' d MMMM yyyy 'à' H'h'm")}}</td>
-                        <td>{{post.dateModif | format_datetime(locale='fr',pattern="'le' d MMMM yyyy 'à' H'h'm")}}</td>
-                        <td>
-                            <a href="{{ path("postUpdate", {id:post.id}) }}"><img src="/assets/img/admin/update.png" alt="Modifier"/></a>
-                            <a data-bs-toggle="modal" data-bs-target="#Modal">
-                                <img src="/assets/img/admin/delete.png" alt="Supprimer"/>
-                            </a>
+    {% if invalidComments %}
+	    <a href="{{ path("invalidComments") }}" type="button" class="btn btn-primary">Commentaires en attente de validation ({{invalidComments}})</a>    
+    {% endif %}
+    
 
-                            <!-- Modal -->
-                            <div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    Voulez-vous vraiment supprimer cet article ?
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                                    <a href="{{ path("postDelete", {id:post.id}) }}" type="button" class="btn btn-primary">Supprimer l'article</a>
-                                </div>
-                                </div>
-                            </div>
-                            </div>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Auteur</th>
+				<th>Titre</th>
+				<th>Date d'ajout</th>
+				<th>Dernière modification</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for post in listePosts %}
+				<tr>
+					<td>{{post.auteur}}</td>
+					<td>{{post.postUri | raw}}</td>
+					<td>{{post.dateCreation | format_datetime(locale='fr',pattern="'le' d MMMM yyyy 'à' H'h'm")}}</td>
+					<td>{{post.dateModif | format_datetime(locale='fr',pattern="'le' d MMMM yyyy 'à' H'h'm")}}</td>
+					<td>
+						<a href="{{ path("postUpdate", {id:post.id}) }}"><img src="/assets/img/admin/update.png" alt="Modifier"/></a>
+						<a data-bs-toggle="modal" data-bs-target="#Modal">
+							<img src="/assets/img/admin/delete.png" alt="Supprimer"/>
+						</a>
 
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-	{{ paginate(listePosts, 'indexPage') }}
+						<!-- Modal -->
+						<div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body">
+										Voulez-vous vraiment supprimer cet article ?
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+										<a href="{{ path("postDelete", {id:post.id,token:user.getAttribute('token')}) }}" type="button" class="btn btn-primary">Supprimer l'article</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+    {% if post %}
+        {{ paginate(listePosts, 'indexPage') }}        
+    {% endif %}
 
 {% endblock %}

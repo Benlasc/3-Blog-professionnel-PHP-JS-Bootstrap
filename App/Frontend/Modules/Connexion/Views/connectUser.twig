@@ -1,0 +1,25 @@
+{% extends 'layout.twig' %}
+
+{% block title %}"Inscription"
+{% endblock %}
+
+{% block content %}
+
+	<div style="max-width: 700px;margin: 0 auto;">
+		{% if user.hasFlash() %}
+			{% set flash = user.getFlash() %}
+
+			<div class="{{ flash[1] }}" role="alert">
+				{{ flash[0] }}
+			</div>
+		{% endif %}
+		<h2>Se connecter</h2>
+		<form class="row g-3" action="" method="post" enctype="multipart/form-data" style="max-width: 700px;">
+			{{form | raw}}
+				<div class="col-12 submit">
+					<button type="submit" class="btn btn-primary">Se connecter</button>
+				</div>
+			</form>
+		</div>
+
+	{% endblock %}

@@ -43,7 +43,7 @@ class TwigRenderer extends ApplicationComponent implements RendererInterface
      * Permet de rendre une vue
      * Le chemin peut être précisé avec des namespace rajoutés via addPath()
      * $this->render('@blog/view');
-     * $this->render('view');
+     * $this->render('nom_fichier_twig_sans_extention') : dans ce cas, la vue sera cherchée dans $path du constructeur ou dans un $path du else de la méthode addPath;
      * @param string $view
      * @param array $params
      * @return string

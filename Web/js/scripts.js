@@ -67,16 +67,23 @@ for (element of btn_reply_comment) {
     element.addEventListener('click',function () {
             
         if (document.getElementById('form-clone')) {
+            var content = document.getElementById('form-clone').querySelector('#contenu').value;
             document.getElementById('form-clone').remove();
         }
+
         var form_clone = form.cloneNode(true);
         form_clone.id="form-clone";
         var parent_id = this.getAttribute('data-id');
         var comment = document.getElementById('comment-'+ parent_id);
         var input_hidden = document.getElementById('parent_id');
-        var input_hidden_clone = form_clone.firstElementChild;
+        var input_hidden_clone = form_clone.children[1];
+
         comment.insertAdjacentElement("afterEnd",form_clone);
-        form_clone.querySelector('#contenu').select()
+        form.getElementsByTagName('textarea')[0].value="";
+        if (content) {
+            form_clone.getElementsByTagName('textarea')[0].value=content;
+        }
+        form_clone.querySelector('#contenu').focus()
         form_clone.querySelector('label').innerHTML="Répondre à ce commentaire"
         input_hidden.value = parent_id;
         input_hidden_clone.value = parent_id;
@@ -84,8 +91,13 @@ for (element of btn_reply_comment) {
 }
 
     form.addEventListener('click', function () {
-        document.getElementById('form-clone').remove();
-
+        if (document.getElementById('form-clone')) {
+            var content = document.getElementById('form-clone').querySelector('#contenu').value;
+            document.getElementById('form-clone').remove();
+        }
+        if (content) {
+            this.getElementsByTagName('textarea')[0].value=content;
+        }
     });
 
 })
