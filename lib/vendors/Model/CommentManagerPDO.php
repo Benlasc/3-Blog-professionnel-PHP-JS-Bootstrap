@@ -8,8 +8,8 @@ class CommentManagerPDO extends CommentManager
 {
     protected function add(Comment $comment)
     {
-        $q = $this->dao->prepare('INSERT INTO comment SET idAuteur = :idAuteur, idArticle = :idArticle, idParent = :idParent, contenu = :contenu, 
-                                  dateCreation = NOW(), valid = :valid, depth = :depth');
+        $q = $this->dao->prepare('INSERT INTO comment SET idAuteur = :idAuteur, idArticle = :idArticle,
+        idParent = :idParent, contenu = :contenu, dateCreation = NOW(), valid = :valid, depth = :depth');
 
         $q->bindValue(':idAuteur', $comment->idAuteur(), \PDO::PARAM_INT);
         $q->bindValue(':idArticle', $comment->idArticle(), \PDO::PARAM_INT);

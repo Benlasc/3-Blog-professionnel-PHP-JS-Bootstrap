@@ -38,7 +38,8 @@ class HomeController extends BackController
                                 'Reply-To: '.$from."\r\n" .
                                 'X-Mailer: PHP/' . phpversion();
 
-                    $content = $this->app()->renderer()->render('mail', ['name'=> $name, 'mail'=> $mail, 'message'=> $message, 'phone'=> $phone, 'logo'=> $logo, 'image'=> $image]);
+                    $content = $this->app()->renderer()->render('mail', ['name'=> $name, 'mail'=> $mail,
+                     'message'=> $message, 'phone'=> $phone, 'logo'=> $logo, 'image'=> $image]);
 
 
 

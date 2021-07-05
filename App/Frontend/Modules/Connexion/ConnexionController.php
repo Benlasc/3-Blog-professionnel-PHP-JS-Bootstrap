@@ -8,13 +8,13 @@ use FormBuilder\UserFormBuilder;
 use \OCFram\BackController;
 use OCFram\FormHandler;
 use \OCFram\HTTPRequest;
-use OCFram\Random_str_generator;
+use OCFram\randomStrGenerator;
 use OCFram\Resize;
 
 class ConnexionController extends BackController
 {
     use Resize;
-    use Random_str_generator;
+    use randomStrGenerator;
 
     public function connect(User $user)
     {
@@ -46,9 +46,6 @@ class ConnexionController extends BackController
             $valid = true;
             $pseudo = $request->postData('pseudo');
             $user = $this->managers->getManagerOf('User')->getWithPseudo($pseudo);
-            if ($user) {
-                $user_id = $user->id();
-            }
             if (!$user) {
                 $valid = false;
                 $this->app->user()->setFlash('Identifiants invalides', "alert alert-danger");
@@ -59,7 +56,8 @@ class ConnexionController extends BackController
                 $this->app->user()->setFlash('Identifiants invalides', "alert alert-danger");
             } elseif (!$user->confirmed()) {
                 $valid = false;
-                $this->app->user()->setFlash('Vous n\'avez pas encore cliqué sur le lien de validation que nous vous avons envoyé par mail', "alert alert-danger");
+                $this->app->user()->setFlash('Vous n\'avez pas encore cliqué sur le lien de validation 
+                que nous vous avons envoyé par mail', "alert alert-danger");
             }
             if ($user) {
                 $user->setPassword($request->postData('password'));
@@ -72,8 +70,6 @@ class ConnexionController extends BackController
         $userBuilder->build();
 
         $form = $userBuilder->form();
-
-        $formHandler = new FormHandler($form, $this->managers->getManagerOf('User'), $request, $this->app->user());
 
         if ($valid && $form->isValid() && !$this->app()->user()->isAuthenticated()) {
             $this->connect($user);
@@ -148,7 +144,7 @@ class ConnexionController extends BackController
                 'password' => $request->postData('password'),
                 'passwordCheck' => $request->postData('passwordCheck'),
                 'pseudo' => $request->postData('pseudo'),
-                'confirmationToken' => $this->random_str_generator(60),
+                'confirmationToken' => $this->randomStrGenerator(60),
             ]);
             if ($idUser = $this->app->user()->getAttribute('user_id')) {
                 $user->setId($idUser);
@@ -193,7 +189,8 @@ class ConnexionController extends BackController
             if ($user->isNew()) {
                 $url='http://monsite.fr/activation-'.$user->newId.'-'.$user->confirmationToken();
                 mail($user->mail(), "Confirmation de votre compte", "Afin de valider votre compte, veuillez cliquer sur le lien suivant : \n\n".$url);
-                $this->app->user()->setFlash('Merci, un mail vous a été envoyé pour confirmer votre compte', "alert alert-success");
+                $this->app->user()->setFlash('Merci, un mail vous a été envoyé
+                 pour confirmer votre compte', "alert alert-success");
             } else {
                 $this->app->user()->setAttribute('user_avatar', $user->avatar());
                 $this->app->user()->setAttribute('user_pseudo', $user->pseudo());
@@ -231,14 +228,15 @@ class ConnexionController extends BackController
         if ($request->postExists("email")) {
             $user = $this->managers->getManagerOf('User')->getWithMail($request->postData('email'));
             if ($user) {
-                $token = $this->Random_str_generator(60);
+                $token = $this->randomStrGenerator(60);
                 $user->setResetToken($token);
                 $user->setResetAt(new \DateTime('NOW'));
                 $this->managers->getManagerOf('User')->save($user, false);
 
                 $url='http://monsite.fr/password-reset-'.$user->id().'-'.$user->resetToken();
                 mail($user->mail(), "Récupération mot de passe", "Afin de définir un nouveau mot de passe, veuillez cliquer sur le lien suivant : \n\n".$url);
-                $this->app()->user()->setFlash('Merci, un mail vous a été envoyé pour définir un nouveu mot de passe', "alert alert-success");
+                $this->app()->user()->setFlash('Merci, un mail vous a été envoyé pour définir
+                 un nouveu mot de passe', "alert alert-success");
                 $this->app()->httpResponse()->redirect('/connexion');
             } else {
                 $this->app()->user()->setFlash('Ce mail ne correspond à aucun utilisateur', "alert alert-danger");
@@ -273,7 +271,8 @@ class ConnexionController extends BackController
                         }
                         $this->app()->httpResponse()->redirect('/connexion');
                     } else {
-                        $this->app()->user()->setFlash('Les mots de passe ne sont pas identiques', "alert alert-danger");
+                        $this->app()->user()->setFlash('Les mots de passe ne sont pas identiques',
+                         "alert alert-danger");
                         //$this->app()->httpResponse()->redirect('.');
                     }
                 }

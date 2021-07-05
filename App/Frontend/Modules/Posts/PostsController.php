@@ -80,7 +80,8 @@ class PostsController extends BackController
 
         if ($request->method() == 'POST') {
             if (!$this->app->user()->isAuthenticated()) {
-                $this->app->user()->setFlash('Vous devez être connecté pour poster un commentaire', "alert alert-danger");
+                $this->app->user()->setFlash('Vous devez être connecté pour poster un commentaire',
+                 "alert alert-danger");
                 $url = $this->app->router()->generateUri("showPost", [$post->slug(), $post->id()]);
                 $this->app->httpResponse()->redirect($url.'#form');
             }
@@ -129,7 +130,8 @@ class PostsController extends BackController
 
         if ($formHandler->process()) {
             if (!$this->app->user()->isAdmin()) {
-                $this->app->user()->setFlash('Votre commentaire est en attente de validation, merci !', "alert alert-success");
+                $this->app->user()->setFlash('Votre commentaire est en attente de validation,
+                 merci !', "alert alert-success");
             }
             $url = $this->app->router()->generateUri("showPost", [$post->slug(), $post->id()]);
             $this->app->httpResponse()->redirect($url.'#form');

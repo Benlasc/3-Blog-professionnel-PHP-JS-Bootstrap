@@ -2,9 +2,9 @@
 
 namespace OCFram;
 
-trait Random_str_generator
+trait randomStrGenerator
 {
-    function random_str_generator($len_of_gen_str)
+    function randomStrGenerator($len_of_gen_str)
     {
         $chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
         $var_size = strlen($chars);

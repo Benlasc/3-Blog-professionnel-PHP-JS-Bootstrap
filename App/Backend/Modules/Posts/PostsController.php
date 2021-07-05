@@ -169,7 +169,6 @@ class PostsController extends BackController
 
                 if (!empty($_FILES['image'])) {
                     if ($_FILES['image']['error']) {
-                        $image = $_POST['oldValue'];
                         if ($_FILES['image']['error'] == 1) {
                             $this->app->user()->setFlash('L\'image ne doit pas dépasser 2 Mo !', 'alert alert-danger');
                         }
@@ -192,7 +191,6 @@ class PostsController extends BackController
 
                 if (!empty($_FILES['image'])) {
                     if ($_FILES['image']['error']) {
-                        $image = $_POST['oldValue'];
                         if ($_FILES['image']['error'] == 1) {
                             $this->app->user()->setFlash('L\'image ne doit pas dépasser 2 Mo !', 'alert alert-danger');
                         }
@@ -258,7 +256,8 @@ class PostsController extends BackController
 
             $auteurComment = $this->managers->getManagerOf('User')->getUnique($idAuteur);
             if ($auteurComment) {
-                $auteurComment = $auteurComment->nom() . ' ' . $auteurComment->prenom() . ' (pseudo : ' . $auteurComment->pseudo() . ')';
+                $auteurComment = $auteurComment->nom() . ' ' . $auteurComment->prenom()
+                 . ' (pseudo : ' . $auteurComment->pseudo() . ')';
             }
 
             $comment->urlArticle = $urlArticle;

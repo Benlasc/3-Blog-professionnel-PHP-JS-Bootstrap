@@ -18,7 +18,9 @@ class TextField extends Field
 
         $required = ($this->required()) ? 'required' : '' ;
 
-        $widget .= '<div class="col-12"><label for="' . $this->name . '" floatingTextarea2" class="form-label">' . $this->label . '</label><textarea class="form-control" id="' . $this->name . '" name="'.$this->name().'" style="height: ' . $this->heightBootstrap . 'px" '.$required.' >';
+        $widget .= '<div class="col-12"><label for="' . $this->name . '" floatingTextarea2" class="form-label">' 
+        . $this->label . '</label><textarea class="form-control" id="' . $this->name . '" name="'
+        .$this->name().'" style="height: ' . $this->heightBootstrap . 'px" '.$required.' >';
 
         if (!empty($this->value)) {
             $widget .= htmlspecialchars($this->value) . '</textarea></div>';

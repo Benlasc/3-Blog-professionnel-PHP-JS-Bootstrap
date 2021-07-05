@@ -3,7 +3,6 @@
 namespace Model;
 
 use Entity\User;
-use OCFram\Random_str_generator;
 
 class UserManagerPDO extends UserManager
 {
@@ -55,7 +54,9 @@ class UserManagerPDO extends UserManager
     {
 
         $requete = $this->dao->prepare('INSERT INTO user SET pseudo = :pseudo, nom = :nom, prenom = :prenom, 
-                                        mail = :mail, dateInscription = NOW(), admin = :admin, password = :password, confirmed = 0, confirmationToken = :confirmationToken, avatar = :avatar');
+                                        mail = :mail, dateInscription = NOW(), admin = :admin,
+                                        password = :password, confirmed = 0, confirmationToken = :confirmationToken,
+                                        avatar = :avatar');
 
         $requete->bindValue(':pseudo', $user->pseudo());
         $requete->bindValue(':nom', $user->nom());
@@ -73,9 +74,13 @@ class UserManagerPDO extends UserManager
     protected function modify(User $user, bool $passwordUpdate)
     {
         if ($passwordUpdate) {
-            $requete = 'UPDATE user SET pseudo = :pseudo, nom = :nom, prenom = :prenom, mail = :mail, password = :password, confirmed = :confirmed, confirmationToken = :confirmationToken, resetToken = :resetToken, resetAt = :resetAt, avatar = :avatar WHERE id = :id';
+            $requete = 'UPDATE user SET pseudo = :pseudo, nom = :nom, prenom = :prenom, mail = :mail,
+             password = :password, confirmed = :confirmed, confirmationToken = :confirmationToken,
+              resetToken = :resetToken, resetAt = :resetAt, avatar = :avatar WHERE id = :id';
         } else {
-            $requete = 'UPDATE user SET pseudo = :pseudo, nom = :nom, prenom = :prenom, mail = :mail, confirmed = :confirmed, confirmationToken = :confirmationToken, resetToken = :resetToken, resetAt = :resetAt, avatar = :avatar WHERE id = :id';
+            $requete = 'UPDATE user SET pseudo = :pseudo, nom = :nom, prenom = :prenom, mail = :mail,
+             confirmed = :confirmed, confirmationToken = :confirmationToken, resetToken = :resetToken,
+              resetAt = :resetAt, avatar = :avatar WHERE id = :id';
         }
         
         $requete = $this->dao->prepare($requete);

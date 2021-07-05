@@ -72,8 +72,8 @@ class PostManagerPDO extends PostManager
 
     protected function modify(Post $post)
     {
-        $requete = $this->dao->prepare('UPDATE post SET idAuteur = :idAuteur, titre = :titre, image = :image, chapo = :chapo, contenu = :contenu, 
-                                       slug = :slug, dateModif = NOW() WHERE id = :id');
+        $requete = $this->dao->prepare('UPDATE post SET idAuteur = :idAuteur, titre = :titre, image = :image,
+         chapo = :chapo, contenu = :contenu, slug = :slug, dateModif = NOW() WHERE id = :id');
 
         $requete->bindValue(':idAuteur', ($post->idAuteur()!=0) ? $post->idAuteur() : null, \PDO::PARAM_INT);
         $requete->bindValue(':titre', $post->titre());

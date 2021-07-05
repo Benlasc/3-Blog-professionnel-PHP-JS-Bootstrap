@@ -33,12 +33,13 @@ class FillTables extends AbstractSeed
             ->insert($data)
             ->save();
             
-        $data = [];                            
-        for ($i = 0; $i < 20; $i++) {                
+        $data = [];
+        for ($i = 0; $i < 20; $i++) {
             $data[] = [
-                'idAuteur' => rand(1,5),
+                'idAuteur' => rand(1, 5),
                 'titre' => $faker->sentence(),
-                'image' =>'assets/img/seed/' . $faker->image(__DIR__.'/../../Web/assets/img/seed', 640, 480, null, false), 
+                'image' =>'assets/img/seed/' . $faker->image(__DIR__.'/../../Web/assets/img/seed',
+                640, 480, null, false), 
                 'chapo' => $faker->catchPhrase,
                 'contenu' => $faker->text(1000),
                 'slug' => $faker->slug(3),
@@ -50,12 +51,12 @@ class FillTables extends AbstractSeed
             ->insert($data)
             ->save();
 
-        $data = [];                            
-        for ($i = 0; $i < 50; $i++) {                
+        $data = [];
+        for ($i = 0; $i < 50; $i++) {
             $data[] = [
-                'idAuteur' => rand(1,5),
-                'idArticle' => rand(1,20),
-                'idParent' => rand(1,50),
+                'idAuteur' => rand(1, 5), 
+                'idArticle' => rand(1, 20),
+                'idParent' => rand(1, 50),
                 'contenu' => $faker->text(200),
                 'dateCreation' => $faker->dateTimeBetween('-2 years', 'now')->format('Y-m-d H:i:s'),
                 'valid' => $faker->boolean

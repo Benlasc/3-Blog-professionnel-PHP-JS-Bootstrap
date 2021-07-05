@@ -16,7 +16,8 @@ class StringField extends Field
 
         $required = ($this->required()) ? 'required' : '' ;
 
-        $widget .='<div class="col-12"><label for=' . $this->name . ' class="form-label">'. $this->label .'</label><input type="text" class="form-control" id=' . $this->name . ' name="' . $this->name . '"';
+        $widget .='<div class="col-12"><label for=' . $this->name . ' class="form-label">'. $this->label
+         .'</label><input type="text" class="form-control" id=' . $this->name . ' name="' . $this->name . '"';
 
         if (!empty($this->value)) {
             $widget .= ' value="' . htmlspecialchars($this->value) . '"';

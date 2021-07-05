@@ -38,7 +38,8 @@ class HTTPResponse extends ApplicationComponent
     }
 
     // Changement par rapport à la fonction setcookie() : le dernier argument est par défaut à true
-    public function setCookie($name, $value = '', $expire = 0, $path = null, $domain = null, $secure = false, $httpOnly = true)
+    public function setCookie($name, $value = '', $expire = 0, $path = null,
+                              $domain = null, $secure = false, $httpOnly = true)
     {
         setcookie($name, $value, $expire, $path, $domain, $secure, $httpOnly);
     }

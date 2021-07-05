@@ -4,7 +4,6 @@ namespace Model;
 
 use Entity\Post;
 use \OCFram\Manager;
-use Pagerfanta\Pagerfanta;
 
 abstract class PostManager extends Manager
 {

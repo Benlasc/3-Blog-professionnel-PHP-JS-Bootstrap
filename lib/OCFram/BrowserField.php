@@ -28,7 +28,8 @@ class BrowserField extends Field
             }
         }
 
-        $widget .= '</label><input type="file" class="form-control" id ="' . $this->name . '" name="' . $this->name . '" accept=".png, .jpg, .jpeg">';
+        $widget .= '</label><input type="file" class="form-control" id ="' . $this->name . '" name="'
+         . $this->name . '" accept=".png, .jpg, .jpeg">';
 
         return $widget;
     }

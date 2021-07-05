@@ -7,18 +7,18 @@
 // Scripts
 //
 
-window.addEventListener('DOMContentLoaded', event => {
+window.addEventListener("DOMContentLoaded", (event) => {
 
     // Navbar shrink function
     var navbarShrink = function () {
-        const navbarCollapsible = document.body.querySelector('#mainNav');
+        const navbarCollapsible = document.body.querySelector("#mainNav");
         if (!navbarCollapsible) {
             return;
         }
         if (window.scrollY === 0) {
-            navbarCollapsible.classList.remove('navbar-shrink')
+            navbarCollapsible.classList.remove("navbar-shrink");
         } else {
-            navbarCollapsible.classList.add('navbar-shrink')
+            navbarCollapsible.classList.add("navbar-shrink");
         }
 
     };
@@ -27,25 +27,25 @@ window.addEventListener('DOMContentLoaded', event => {
     navbarShrink();
 
     // Shrink the navbar when page is scrolled
-    document.addEventListener('scroll', navbarShrink);
+    document.addEventListener("scroll", navbarShrink);
 
     // Activate Bootstrap scrollspy on the main nav element
-    const mainNav = document.body.querySelector('#mainNav');
+    const mainNav = document.body.querySelector("#mainNav");
     if (mainNav) {
         new bootstrap.ScrollSpy(document.body, {
-            target: '#mainNav',
+            target: "#mainNav",
             offset: 74,
         });
-    };
+    }
 
     // Collapse responsive navbar when toggler is visible
-    const navbarToggler = document.body.querySelector('.navbar-toggler');
+    const navbarToggler = document.body.querySelector(".navbar-toggler");
     const responsiveNavItems = [].slice.call(
-        document.querySelectorAll('#navbarResponsive .nav-link')
+        document.querySelectorAll("#navbarResponsive .nav-link")
     );
     responsiveNavItems.map(function (responsiveNavItem) {
-        responsiveNavItem.addEventListener('click', () => {
-            if (window.getComputedStyle(navbarToggler).display !== 'none') {
+        responsiveNavItem.addEventListener("click", () => {
+            if (window.getComputedStyle(navbarToggler).display !== "none") {
                 navbarToggler.click();
             }
         });
@@ -54,49 +54,49 @@ window.addEventListener('DOMContentLoaded', event => {
     // If on the home page, toogle the "home" class on navbar element
     var url = document.location.href;
     let button = document.getElementById("mainNav");
-    var regex = new RegExp('http://monsite.fr/#.+');
-if (url == "http://monsite.fr/" || regex.test(url)) {
-    button.classList.toggle('home');
+    var regex = new RegExp("http://monsite.fr/#.+");
+if (url === "http://monsite.fr/" || regex.test(url)) {
+    button.classList.toggle("home");
 }
 
-    var btn_reply_comment = document.body.getElementsByClassName("reply");
+    var btnReplyComment = document.body.getElementsByClassName("reply");
 
-    var form = document.getElementById('form-comment');
+    var form = document.getElementById("form-comment");
 
-for (element of btn_reply_comment) {
-    element.addEventListener('click',function () {
+for (element of btnReplyComment) {
+    element.addEventListener("click",function () {
             
-        if (document.getElementById('form-clone')) {
-            var content = document.getElementById('form-clone').querySelector('#contenu').value;
-            document.getElementById('form-clone').remove();
+        if (document.getElementById("form-clone")) {
+            var content = document.getElementById("form-clone").querySelector("#contenu").value;
+            document.getElementById("form-clone").remove();
         }
 
-        var form_clone = form.cloneNode(true);
-        form_clone.id="form-clone";
-        var parent_id = this.getAttribute('data-id');
-        var comment = document.getElementById('comment-'+ parent_id);
-        var input_hidden = document.getElementById('parent_id');
-        var input_hidden_clone = form_clone.children[1];
+        var formClone = form.cloneNode(true);
+        formClone.id="form-clone";
+        var parentId = this.getAttribute("data-id");
+        var comment = document.getElementById("comment-"+ parentId);
+        var inputHidden = document.getElementById("parentId");
+        var inputHiddenClone = formClone.children[1];
 
-        comment.insertAdjacentElement("afterEnd",form_clone);
-        form.getElementsByTagName('textarea')[0].value="";
+        comment.insertAdjacentElement("afterEnd",formClone);
+        form.getElementsByTagName("textarea")[0].value="";
         if (content) {
-            form_clone.getElementsByTagName('textarea')[0].value=content;
+            formClone.getElementsByTagName("textarea")[0].value=content;
         }
-        form_clone.querySelector('#contenu').focus()
-        form_clone.querySelector('label').innerHTML="Répondre à ce commentaire"
-        input_hidden.value = parent_id;
-        input_hidden_clone.value = parent_id;
+        formClone.querySelector("#contenu").focus();
+        formClone.querySelector("label").innerHTML="Répondre à ce commentaire";
+        inputHidden.value = parentId;
+        inputHiddenClone.value = parentId;
     });
 }
 
-    form.addEventListener('click', function () {
-        if (document.getElementById('form-clone')) {
-            var content = document.getElementById('form-clone').querySelector('#contenu').value;
-            document.getElementById('form-clone').remove();
+    form.addEventListener("click", function () {
+        if (document.getElementById("form-clone")) {
+            var content = document.getElementById("form-clone").querySelector("#contenu").value;
+            document.getElementById("form-clone").remove();
         }
         if (content) {
-            this.getElementsByTagName('textarea')[0].value=content;
+            this.getElementsByTagName("textarea")[0].value=content;
         }
     });
 

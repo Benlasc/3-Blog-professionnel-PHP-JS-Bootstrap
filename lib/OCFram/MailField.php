@@ -14,9 +14,10 @@ class MailField extends Field
             $widget .= '<div class="alert alert-danger" role="alert">' . $this->errorMessage . '</div>';
         }
 
-        $required = ($this->required()) ? 'required' : '' ;
+        $required = ($this->required()) ? 'required' : '';
 
-        $widget .='<div class="col-12"><label for=' . $this->name . ' class="form-label">'. $this->label .'</label><input type="email" class="form-control" id=' . $this->name . ' name="' . $this->name . '"';
+        $widget .= '<div class="col-12"><label for=' . $this->name . ' class="form-label">' . $this->label 
+        . '</label><input type="email" class="form-control" id='. $this->name . ' name="' . $this->name . '"';
 
         if (!empty($this->value)) {
             $widget .= ' value="' . htmlspecialchars($this->value) . '"';
