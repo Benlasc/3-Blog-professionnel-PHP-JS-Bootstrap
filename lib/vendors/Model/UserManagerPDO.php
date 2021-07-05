@@ -111,6 +111,8 @@ class UserManagerPDO extends UserManager
         
         if ($user = $requete->fetch()) {
             $user->setDateInscription(new \DateTime($user->dateInscription()));
+            $user->setResetAt(($user->resetAt() === null) ? null : new \DateTime($user->resetAt()));
+
             return $user;
         }
 
@@ -126,6 +128,7 @@ class UserManagerPDO extends UserManager
         
         if ($user = $requete->fetch()) {
             $user->setDateInscription(new \DateTime($user->dateInscription()));
+            $user->setResetAt(($user->resetAt() === null) ? null : new \DateTime($user->resetAt()));
             return $user;
         }
 

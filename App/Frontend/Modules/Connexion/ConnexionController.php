@@ -16,6 +16,20 @@ class ConnexionController extends BackController
     use Resize;
     use Random_str_generator;
 
+    public function connect(User $user)
+    {
+        session_regenerate_id();
+        $this->app->user()->setAttribute('user_id', $user->id());
+        $this->app->user()->setAttribute('user_avatar', $user->avatar());
+        $this->app->user()->setAttribute('user_pseudo', $user->pseudo());
+        $this->app->user()->deleteAttribute('token');
+        $this->app->user()->setAttribute('token', bin2hex(openssl_random_pseudo_bytes(6)));
+        $this->app->user()->setFlash('Vous êtes connecté', "alert alert-success");
+        if ($user->admin()) {
+            $this->app->user()->setAdmin();
+        }
+    }
+
     public function executeAddUser(HTTPRequest $request)
     {
         $this->processForm($request);
@@ -34,13 +48,12 @@ class ConnexionController extends BackController
             $user = $this->managers->getManagerOf('User')->getWithPseudo($pseudo);
             if ($user) {
                 $user_id = $user->id();
-                $user_avatar = $user->avatar();
-                $user_pseudo = $user->pseudo();
-                $isAdmin = $user->admin();
             }
             if (!$user) {
                 $valid = false;
                 $this->app->user()->setFlash('Identifiants invalides', "alert alert-danger");
+                $user = new User(['pseudo'=>$pseudo,
+                                  'password'=>$request->postData('password')]);
             } elseif (!password_verify($request->postData('password'), $user->password())) {
                 $valid = false;
                 $this->app->user()->setFlash('Identifiants invalides', "alert alert-danger");
@@ -48,8 +61,9 @@ class ConnexionController extends BackController
                 $valid = false;
                 $this->app->user()->setFlash('Vous n\'avez pas encore cliqué sur le lien de validation que nous vous avons envoyé par mail', "alert alert-danger");
             }
-            $user = new User(['pseudo' => $pseudo,
-                              'password' => $request->postData('password')]);
+            if ($user) {
+                $user->setPassword($request->postData('password'));
+            }
         } else {
             $user = new User();
         }
@@ -61,16 +75,9 @@ class ConnexionController extends BackController
 
         $formHandler = new FormHandler($form, $this->managers->getManagerOf('User'), $request, $this->app->user());
 
-        if ($valid && $form->isValid()) {
-            $this->app->user()->setAttribute('user_id', $user_id);
-            $this->app->user()->setAttribute('user_avatar', $user_avatar);
-            $this->app->user()->setAttribute('user_pseudo', $user_pseudo);
-            $this->app->user()->deleteAttribute('token');
-            $this->app->user()->setAttribute('token', bin2hex(openssl_random_pseudo_bytes(6)));
-            $this->app->user()->setFlash('Vous êtes connecté', "alert alert-success");
-            if ($isAdmin) {
-                $this->app->user()->setAdmin();
-            }
+        if ($valid && $form->isValid() && !$this->app()->user()->isAuthenticated()) {
+            $this->connect($user);
+
             $this->app()->httpResponse()->redirect('/compte');
         }
         $this->page->addVar('form', $form->createView());
@@ -83,6 +90,7 @@ class ConnexionController extends BackController
         $this->app->user()->deleteAttribute('user_id');
         $this->app->user()->deleteAttribute('token');
         $this->app->user()->deleteAttribute('admin');
+        session_regenerate_id();
         $this->app->httpResponse()->redirect('/');
     }
 
@@ -102,6 +110,7 @@ class ConnexionController extends BackController
             $pseudo = $request->postData('pseudo');
             $mail = $request->postData('mail');
             $valid = true;
+            
             if ($request->postData('password') != $request->postData('passwordCheck')) {
                 $valid = false;
                 $this->app->user()->setFlash('Vous avez indiqué deux mots de passe différents.', "alert alert-danger");
@@ -115,6 +124,7 @@ class ConnexionController extends BackController
                     $image = $_POST['oldValue'];
                     if ($_FILES['avatar']['error'] == 1) {
                         $this->app->user()->setFlash('L\'image ne doit pas dépasser 2 Mo !', 'alert alert-danger');
+                        $valid = false;
                     }
                     if ($_FILES['avatar']['error'] == 4 && !$this->app->user()->isAuthenticated()) {
                         $image = 'assets/img/avatars/commentaire.jpg';
@@ -254,8 +264,8 @@ class ConnexionController extends BackController
                     $password_confirm = $request->postData('password_confirm');
                     if ($password == $password_confirm) {
                         $user->setPassword($password);
+                        $user->setResetToken(null);
                         $this->managers->getManagerOf('User')->save($user);
-
                         $this->app()->user()->setFlash('Votre mot de passe a été mis à jour', "alert alert-success");
                         $this->app()->user()->setAuthenticated((int) $user->id());
                         if ($user->admin() == 1) {

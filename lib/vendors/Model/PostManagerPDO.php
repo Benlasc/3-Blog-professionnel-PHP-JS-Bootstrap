@@ -103,4 +103,9 @@ class PostManagerPDO extends PostManager
             ->setMaxPerPage($perPage)
             ->setCurrentPage($currentPage);
     }
+
+    public function maxId(): int
+    {
+        return (int) $this->dao->query('SELECT MAX(id) FROM post')->fetchColumn();
+    }
 }

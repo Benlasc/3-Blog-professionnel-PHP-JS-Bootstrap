@@ -30,15 +30,6 @@ class Page extends ApplicationComponent
         );
 
         echo $this->app()->renderer()->render($vue, $vars);
-        //echo $this->app()->renderer()->render('404', $vars);
-
-        // ob_start();
-        // require $this->contentFile;
-        // $content = ob_get_clean();
-
-        // ob_start();
-        // require __DIR__ . '/../../App/' . $this->app->name() . '/Templates/layout.php';
-        // return ob_get_clean();
     }
 
     public function setContentFile($contentFile)

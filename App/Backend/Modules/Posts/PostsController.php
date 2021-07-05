@@ -5,8 +5,6 @@ namespace App\Backend\Modules\Posts;
 use \OCFram\BackController;
 use \OCFram\HTTPRequest;
 use \Entity\Post;
-use \Entity\Comment;
-use \FormBuilder\CommentFormBuilder;
 use \FormBuilder\NewsFormBuilder;
 use \OCFram\FormHandler;
 use OCFram\Resize;
@@ -21,6 +19,8 @@ class PostsController extends BackController
         $userToken =  $this->app()->user()->getAttribute('token');
         if ($requestToken == $userToken) {
             $postId = $request->getData('id');
+            $image = $this->managers->getManagerOf('Post')->getUnique($postId)->image();
+            unlink($image);
 
             $this->managers->getManagerOf('Post')->delete($postId);
             $this->managers->getManagerOf('Comment')->deleteFromNews($postId);
@@ -64,7 +64,7 @@ class PostsController extends BackController
         } else {
             $this->app->user()->setFlash('Les tokens ne correspondent pas !', "alert alert-danger");
             if (preg_match('/\/blog\//', $_SERVER['HTTP_REFERER'])) {
-                $this->app->httpResponse()->redirect($_SERVER['HTTP_REFERER'].'#form-comment');
+                $this->app->httpResponse()->redirect($_SERVER['HTTP_REFERER'] . '#form-comment');
             }
             $this->app->httpResponse()->redirect($_SERVER['HTTP_REFERER']);
         }
@@ -95,8 +95,8 @@ class PostsController extends BackController
             if ($author) {
                 $post->setAuteur($author->nom() . " " . $author->prenom() . " (pseudo : " . $author->pseudo() . ")");
             }
-            $postUri = $this->app()->router()->generateUri('showPost', [$post->slug(),$post->id()]);
-            $postUri = '<a href="'.$postUri.'">'.$post->titre().'</a>';
+            $postUri = $this->app()->router()->generateUri('showPost', [$post->slug(), $post->id()]);
+            $postUri = '<a href="' . $postUri . '">' . $post->titre() . '</a>';
             $post->postUri = $postUri;
         }
 
@@ -122,36 +122,6 @@ class PostsController extends BackController
         $this->page->addVar('title', 'Modification d\'un article');
 
         $this->addView();
-    }
-
-    public function executeUpdateComment(HTTPRequest $request)
-    {
-        $this->page->addVar('title', 'Modification d\'un commentaire');
-
-        if ($request->method() == 'POST') {
-            $comment = new Comment([
-                'id' => $request->getData('id'),
-                'auteur' => $request->postData('auteur'),
-                'contenu' => $request->postData('contenu')
-            ]);
-        } else {
-            $comment = $this->managers->getManagerOf('Comment')->get($request->getData('id'));
-        }
-
-        $formBuilder = new CommentFormBuilder($comment);
-        $formBuilder->build();
-
-        $form = $formBuilder->form();
-
-        $formHandler = new FormHandler($form, $this->managers->getManagerOf('Comment'), $request, $this->app->user());
-
-        if ($formHandler->process()) {
-            $this->app->user()->setFlash('Le commentaire a bien été modifié', "alert alert-success");
-
-            $this->app->httpResponse()->redirect('/admin/');
-        }
-
-        $this->page->addVar('form', $form->createView());
     }
 
     /**
@@ -183,26 +153,9 @@ class PostsController extends BackController
     public function processForm(HTTPRequest $request)
     {
         if ($request->method() == 'POST') {
-            if (!empty($_FILES['image'])) {
-                if ($_FILES['image']['error']) {
-                    $image = $_POST['oldValue'];
-                    if ($_FILES['image']['error'] == 1) {
-                        $this->app->user()->setFlash('L\'image ne doit pas dépasser 2 Mo !', 'alert alert-danger');
-                    }
-                } else {
-                    $uploaddir = __DIR__ . '/../../../../Web/assets/img/blog/';
-                    $uploadfile = $uploaddir . basename($_FILES['image']['name']);
-
-                    $this->resize($_FILES['image']['tmp_name'], $uploadfile, 640, 480);
-
-                    $image = 'assets/img/blog/' . $_FILES['image']['name'];
-                }
-            }
-
             $post = new Post([
                 'idAuteur' => $request->postData('auteur'),
                 'titre' => $request->postData('titre'),
-                'image' => $image ?? null,
                 'chapo' => $request->postData('chapo'),
                 'contenu' => $request->postData('contenu'),
                 'slug' => $request->postData('slug')
@@ -214,13 +167,44 @@ class PostsController extends BackController
                 $authors = $this->authorsList($post);
                 $post->setAuteur($authors);
 
-                // if ($_FILES['image']['error']) {
-                //     $authors = $this->authorsList($post);
-                //     $post->setAuteur($authors);
-                // }
+                if (!empty($_FILES['image'])) {
+                    if ($_FILES['image']['error']) {
+                        $image = $_POST['oldValue'];
+                        if ($_FILES['image']['error'] == 1) {
+                            $this->app->user()->setFlash('L\'image ne doit pas dépasser 2 Mo !', 'alert alert-danger');
+                        }
+                        if ($_FILES['image']['error'] == 4) {
+                            $post->setImage($request->postData('oldValue'));
+                        }
+                    } else {
+                        $pathinfo = pathinfo($_FILES['image']['name']);
+                        $imageName = $pathinfo['filename'] . '-' . $idPost . '.' . $pathinfo['extension'];
+                        $post->setImage('assets/img/blog/' . $imageName);
+                        $oldImage = $this->managers->getManagerOf('Post')->getUnique($idPost)->image();
+                        unlink($oldImage);
+                        $uploadfile = __DIR__ . '/../../../../Web/assets/img/blog/' . $imageName;
+                        $this->resize($_FILES['image']['tmp_name'], $uploadfile, 640, 480);
+                    }
+                }
             } else {
                 $authors = $this->authorsList();
                 $post->setAuteur($authors);
+
+                if (!empty($_FILES['image'])) {
+                    if ($_FILES['image']['error']) {
+                        $image = $_POST['oldValue'];
+                        if ($_FILES['image']['error'] == 1) {
+                            $this->app->user()->setFlash('L\'image ne doit pas dépasser 2 Mo !', 'alert alert-danger');
+                        }
+                    } else {
+                        $idImage = $this->managers->getManagerOf('Post')->maxId() + 1;
+                        $pathinfo = pathinfo($_FILES['image']['name']);
+                        $imageName = $pathinfo['filename'] . '-' . $idImage . '.' . $pathinfo['extension'];
+                        $post->setImage('assets/img/blog/' . $imageName);
+                        $uploadfile = __DIR__ . '/../../../../Web/assets/img/blog/' . $imageName;
+                        $this->resize($_FILES['image']['tmp_name'], $uploadfile, 640, 480);
+                    }
+                }
             }
         } else {
             // L'identifiant de l'article est transmis si on veut la modifier

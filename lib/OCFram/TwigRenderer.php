@@ -9,7 +9,6 @@ use Twig\Extra\Intl\IntlExtension;
 
 class TwigRenderer extends ApplicationComponent implements RendererInterface
 {
-
     private $twig;
 
     private $loader;

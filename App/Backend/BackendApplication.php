@@ -3,7 +3,6 @@
 namespace App\Backend;
 
 use \OCFram\Application;
-use OCFram\TwigRenderer;
 
 class BackendApplication extends Application
 {
