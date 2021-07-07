@@ -61,6 +61,7 @@ class PostsController extends BackController
         $comments = $this->managers->getManagerOf('Comment')->getListOfValid($post->id());
 
         $comments_by_id = [];
+
         foreach ($comments as $comment) {
             $commentator = $this->managers->getManagerOf('User')->getUnique($comment->idAuteur());
             if ($commentator) {
@@ -86,15 +87,15 @@ class PostsController extends BackController
                 $this->app->httpResponse()->redirect($url.'#form');
             }
             
-            $parent_id = ($request->postExists('parent_id')) ? $request->postData('parent_id') : 0 ;
+            $parentId = ($request->postExists('parentId')) ? $request->postData('parentId') : 0 ;
             $depth = 0;
 
-            if ($parent_id !=0) {
-                if ($this->managers->getManagerOf('Comment')->commentExist($parent_id) == false) {
+            if ($parentId !=0) {
+                if ($this->managers->getManagerOf('Comment')->commentExist($parentId) == false) {
                     throw new \Exception('Ce parent n\'existe pas');
                 }
 
-                $depthParent = $this->managers->getManagerOf('comment')->get($parent_id)->depth();
+                $depthParent = $this->managers->getManagerOf('comment')->get($parentId)->depth();
 
                 if ($depthParent >= 2) {
                     $this->app->user()->setFlash('Vous ne pouvez pas répondre à ce commentaire', "alert alert-danger");
@@ -108,7 +109,7 @@ class PostsController extends BackController
             $comment = new Comment([
                 'idAuteur' => $this->app->user()->getAttribute('user_id'),
                 'idArticle' => $request->getData('id'),
-                'idParent' => $parent_id,
+                'idParent' => $parentId,
                 'contenu' => $request->postData('contenu'),
                 'depth' => $depth
             ]);

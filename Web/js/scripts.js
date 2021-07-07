@@ -73,6 +73,7 @@ for (element of btnReplyComment) {
 
         var formClone = form.cloneNode(true);
         formClone.id="form-clone";
+        debugger
         var parentId = this.getAttribute("data-id");
         var comment = document.getElementById("comment-"+ parentId);
         var inputHidden = document.getElementById("parentId");
