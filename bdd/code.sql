@@ -19,7 +19,7 @@ CREATE TABLE user (
     confirmationToken VARCHAR(60) DEFAULT NULL,
     resetToken VARCHAR(60) DEFAULT NULL,
     resetAt DATETIME DEFAULT NULL,
-    avatar VARCHAR(100) NOT NULL,
+    avatar VARCHAR(100) DEFAULT NULL,
     PRIMARY KEY (id)
 ) ENGINE = InnoDB;
 

@@ -1,0 +1,30 @@
+[21-Oct-2021 18:22:53 Europe/Paris] PHP Warning:  finfo::file(assets/img/avatars/commentaire.jpg): Failed to open stream: No such file or directory in C:\Users\Benoit\Desktop\Openclassrooms\Projet 5\Projet\lib\OCFram\ImageValidator.php on line 21
+[21-Oct-2021 18:23:04 Europe/Paris] PHP Warning:  finfo::file(assets/img/avatars/commentaire.jpg): Failed to open stream: No such file or directory in C:\Users\Benoit\Desktop\Openclassrooms\Projet 5\Projet\lib\OCFram\ImageValidator.php on line 21
+[21-Oct-2021 18:23:15 Europe/Paris] PHP Warning:  imagejpeg(C:\Users\Benoit\Desktop\Openclassrooms\Projet 5\Projet\App\Frontend\Modules\Connexion/../../../../Web/assets/img/avatars/rdv medecin.JPG): Failed to open stream: Permission denied in C:\Users\Benoit\Desktop\Openclassrooms\Projet 5\Projet\lib\OCFram\Resize.php on line 27
+[21-Oct-2021 18:23:15 Europe/Paris] PHP Warning:  finfo::file(assets/img/avatars/rdv medecin.JPG): Failed to open stream: No such file or directory in C:\Users\Benoit\Desktop\Openclassrooms\Projet 5\Projet\lib\OCFram\ImageValidator.php on line 21
+[21-Oct-2021 18:24:48 Europe/Paris] PHP Warning:  finfo::file(assets/img/avatars/commentaire.jpg): Failed to open stream: No such file or directory in C:\Users\Benoit\Desktop\Openclassrooms\Projet 5\Projet\lib\OCFram\ImageValidator.php on line 21
+[21-Oct-2021 18:34:49 Europe/Paris] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY000] [1049] Unknown database 'blog' in C:\Users\Benoit\Desktop\Openclassrooms\Projet 5\Projet\lib\OCFram\PDOFactory.php:9
+Stack trace:
+#0 C:\Users\Benoit\Desktop\Openclassrooms\Projet 5\Projet\lib\OCFram\PDOFactory.php(9): PDO->__construct('mysql:host=loca...', 'root', 'bidule')
+#1 C:\Users\Benoit\Desktop\Openclassrooms\Projet 5\Projet\lib\OCFram\BackController.php(17): OCFram\PDOFactory::getMysqlConnexion()
+#2 C:\Users\Benoit\Desktop\Openclassrooms\Projet 5\Projet\lib\OCFram\Application.php(65): OCFram\BackController->__construct(Object(App\Frontend\FrontendApplication), 'connexion', 'seeAccount')
+#3 C:\Users\Benoit\Desktop\Openclassrooms\Projet 5\Projet\App\Frontend\FrontendApplication.php(19): OCFram\Application->getController()
+#4 C:\Users\Benoit\Desktop\Openclassrooms\Projet 5\Projet\Web\bootstrap.php(16): App\Frontend\FrontendApplication->run()
+#5 {main}
+  thrown in C:\Users\Benoit\Desktop\Openclassrooms\Projet 5\Projet\lib\OCFram\PDOFactory.php on line 9
+[21-Oct-2021 18:35:24 Europe/Paris] PHP Fatal error:  Uncaught Error: Call to a member function setPassword() on null in C:\Users\Benoit\Desktop\Openclassrooms\Projet 5\Projet\App\Frontend\Modules\Connexion\ConnexionController.php:175
+Stack trace:
+#0 C:\Users\Benoit\Desktop\Openclassrooms\Projet 5\Projet\App\Frontend\Modules\Connexion\ConnexionController.php(95): App\Frontend\Modules\Connexion\ConnexionController->processForm(Object(OCFram\HTTPRequest))
+#1 C:\Users\Benoit\Desktop\Openclassrooms\Projet 5\Projet\lib\OCFram\BackController.php(35): App\Frontend\Modules\Connexion\ConnexionController->executeSeeAccount(Object(OCFram\HTTPRequest))
+#2 C:\Users\Benoit\Desktop\Openclassrooms\Projet 5\Projet\App\Frontend\FrontendApplication.php(20): OCFram\BackController->execute()
+#3 C:\Users\Benoit\Desktop\Openclassrooms\Projet 5\Projet\Web\bootstrap.php(16): App\Frontend\FrontendApplication->run()
+#4 {main}
+  thrown in C:\Users\Benoit\Desktop\Openclassrooms\Projet 5\Projet\App\Frontend\Modules\Connexion\ConnexionController.php on line 175
+[21-Oct-2021 18:35:26 Europe/Paris] PHP Fatal error:  Uncaught Error: Call to a member function setPassword() on null in C:\Users\Benoit\Desktop\Openclassrooms\Projet 5\Projet\App\Frontend\Modules\Connexion\ConnexionController.php:175
+Stack trace:
+#0 C:\Users\Benoit\Desktop\Openclassrooms\Projet 5\Projet\App\Frontend\Modules\Connexion\ConnexionController.php(95): App\Frontend\Modules\Connexion\ConnexionController->processForm(Object(OCFram\HTTPRequest))
+#1 C:\Users\Benoit\Desktop\Openclassrooms\Projet 5\Projet\lib\OCFram\BackController.php(35): App\Frontend\Modules\Connexion\ConnexionController->executeSeeAccount(Object(OCFram\HTTPRequest))
+#2 C:\Users\Benoit\Desktop\Openclassrooms\Projet 5\Projet\App\Frontend\FrontendApplication.php(20): OCFram\BackController->execute()
+#3 C:\Users\Benoit\Desktop\Openclassrooms\Projet 5\Projet\Web\bootstrap.php(16): App\Frontend\FrontendApplication->run()
+#4 {main}
+  thrown in C:\Users\Benoit\Desktop\Openclassrooms\Projet 5\Projet\App\Frontend\Modules\Connexion\ConnexionController.php on line 175

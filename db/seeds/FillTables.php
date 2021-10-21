@@ -56,7 +56,7 @@ class FillTables extends AbstractSeed
             $data[] = [
                 'idAuteur' => rand(1, 5), 
                 'idArticle' => rand(1, 20),
-                'idParent' => rand(1, 50),
+                // 'idParent' => rand(1, 50),
                 'contenu' => $faker->text(200),
                 'dateCreation' => $faker->dateTimeBetween('-2 years', 'now')->format('Y-m-d H:i:s'),
                 'valid' => $faker->boolean

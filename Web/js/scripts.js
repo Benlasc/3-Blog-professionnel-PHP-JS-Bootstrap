@@ -55,41 +55,41 @@ window.addEventListener("DOMContentLoaded", (event) => {
     var url = document.location.href;
     let button = document.getElementById("mainNav");
     var regex = new RegExp("http://monsite.fr/#.+");
-if (url === "http://monsite.fr/" || regex.test(url)) {
-    button.classList.toggle("home");
-}
+    if (url === "http://monsite.fr/" || regex.test(url)) {
+        button.classList.toggle("home");
+    }
 
     var btnReplyComment = document.body.getElementsByClassName("reply");
 
     var form = document.getElementById("form-comment");
 
-for (element of btnReplyComment) {
-    element.addEventListener("click",function () {
-            
-        if (document.getElementById("form-clone")) {
-            var content = document.getElementById("form-clone").querySelector("#contenu").value;
-            document.getElementById("form-clone").remove();
-        }
+    for (element of btnReplyComment) {
+        element.addEventListener("click", function () {
 
-        var formClone = form.cloneNode(true);
-        formClone.id="form-clone";
-        debugger
-        var parentId = this.getAttribute("data-id");
-        var comment = document.getElementById("comment-"+ parentId);
-        var inputHidden = document.getElementById("parentId");
-        var inputHiddenClone = formClone.children[1];
+            if (document.getElementById("form-clone")) {
+                var content = document.getElementById("form-clone").querySelector("#contenu").value;
+                document.getElementById("form-clone").remove();
+            }
 
-        comment.insertAdjacentElement("afterEnd",formClone);
-        form.getElementsByTagName("textarea")[0].value="";
-        if (content) {
-            formClone.getElementsByTagName("textarea")[0].value=content;
-        }
-        formClone.querySelector("#contenu").focus();
-        formClone.querySelector("label").innerHTML="Répondre à ce commentaire";
-        inputHidden.value = parentId;
-        inputHiddenClone.value = parentId;
-    });
-}
+            var formClone = form.cloneNode(true);
+            formClone.id = "form-clone";
+            debugger
+            var parentId = this.getAttribute("data-id");
+            var comment = document.getElementById("comment-" + parentId);
+            var inputHidden = document.getElementById("parentId");
+            var inputHiddenClone = formClone.children[1];
+
+            comment.insertAdjacentElement("afterEnd", formClone);
+            form.getElementsByTagName("textarea")[0].value = "";
+            if (content) {
+                formClone.getElementsByTagName("textarea")[0].value = content;
+            }
+            formClone.querySelector("#contenu").focus();
+            formClone.querySelector("label").innerHTML = "Répondre à ce commentaire";
+            inputHidden.value = parentId;
+            inputHiddenClone.value = parentId;
+        });
+    }
 
     form.addEventListener("click", function () {
         if (document.getElementById("form-clone")) {
@@ -97,7 +97,7 @@ for (element of btnReplyComment) {
             document.getElementById("form-clone").remove();
         }
         if (content) {
-            this.getElementsByTagName("textarea")[0].value=content;
+            this.getElementsByTagName("textarea")[0].value = content;
         }
     });
 

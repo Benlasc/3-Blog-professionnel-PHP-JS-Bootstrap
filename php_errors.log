@@ -1,0 +1,20 @@
+[21-Oct-2021 18:05:51 Europe/Paris] PHP Warning:  require(../vendor/autoload.php): Failed to open stream: No such file or directory in C:\Users\Benoit\Desktop\Openclassrooms\Projet 5\Projet\Web\bootstrap.php on line 11
+[21-Oct-2021 18:05:51 Europe/Paris] PHP Fatal error:  Uncaught Error: Failed opening required '../vendor/autoload.php' (include_path='.;C:\php\pear') in C:\Users\Benoit\Desktop\Openclassrooms\Projet 5\Projet\Web\bootstrap.php:11
+Stack trace:
+#0 {main}
+  thrown in C:\Users\Benoit\Desktop\Openclassrooms\Projet 5\Projet\Web\bootstrap.php on line 11
+[21-Oct-2021 18:05:51 Europe/Paris] PHP Warning:  require(../vendor/autoload.php): Failed to open stream: No such file or directory in C:\Users\Benoit\Desktop\Openclassrooms\Projet 5\Projet\Web\bootstrap.php on line 11
+[21-Oct-2021 18:05:51 Europe/Paris] PHP Fatal error:  Uncaught Error: Failed opening required '../vendor/autoload.php' (include_path='.;C:\php\pear') in C:\Users\Benoit\Desktop\Openclassrooms\Projet 5\Projet\Web\bootstrap.php:11
+Stack trace:
+#0 {main}
+  thrown in C:\Users\Benoit\Desktop\Openclassrooms\Projet 5\Projet\Web\bootstrap.php on line 11
+[21-Oct-2021 18:06:13 Europe/Paris] PHP Warning:  require(../vendor/autoload.php): Failed to open stream: No such file or directory in C:\Users\Benoit\Desktop\Openclassrooms\Projet 5\Projet\Web\bootstrap.php on line 11
+[21-Oct-2021 18:06:13 Europe/Paris] PHP Fatal error:  Uncaught Error: Failed opening required '../vendor/autoload.php' (include_path='.;C:\php\pear') in C:\Users\Benoit\Desktop\Openclassrooms\Projet 5\Projet\Web\bootstrap.php:11
+Stack trace:
+#0 {main}
+  thrown in C:\Users\Benoit\Desktop\Openclassrooms\Projet 5\Projet\Web\bootstrap.php on line 11
+[21-Oct-2021 18:06:13 Europe/Paris] PHP Warning:  require(../vendor/autoload.php): Failed to open stream: No such file or directory in C:\Users\Benoit\Desktop\Openclassrooms\Projet 5\Projet\Web\bootstrap.php on line 11
+[21-Oct-2021 18:06:13 Europe/Paris] PHP Fatal error:  Uncaught Error: Failed opening required '../vendor/autoload.php' (include_path='.;C:\php\pear') in C:\Users\Benoit\Desktop\Openclassrooms\Projet 5\Projet\Web\bootstrap.php:11
+Stack trace:
+#0 {main}
+  thrown in C:\Users\Benoit\Desktop\Openclassrooms\Projet 5\Projet\Web\bootstrap.php on line 11
