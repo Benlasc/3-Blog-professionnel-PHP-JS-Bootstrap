@@ -1,5 +1,7 @@
 # Professional blog 
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/57178e8e64ea414ba80c3894b1b295af)](https://app.codacy.com/gh/Benlasc/4-Blog-professionnel-PHP-JS-Bootstrap?utm_source=github.com&utm_medium=referral&utm_content=Benlasc/4-Blog-professionnel-PHP-JS-Bootstrap&utm_campaign=Badge_Grade_Settings)
+
 Pedagogical project: create a professional blog using PHP Vanilla.
 
 Back-end : Vanilla PHP - MySQL 
