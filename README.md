@@ -1,19 +1,25 @@
-# Blog
-Requirements :
+# Professional blog 
 
--> PHP versions needed: PHP~8
--> Composer must be installed
+Pedagogical project: create a professional blog using PHP Vanilla.
 
-Instructions to install the project
+Back-end : Vanilla PHP - MySQL 
+Front-end : Bootstrap - Vanilla JavaScript
 
-Step 1: Libraries installation
-Extract the project into a folder. Open a terminal and do  "composer update" to download the necessary libraries.
+## Instructions to install the project
 
-Step 2: Apache server configuration
+Download zip files or clone the project repository with github ([see GitHub documentation](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository)). 
+
+### __Step 1: Libraries installation__
+Open a terminal and do "composer install" to download the necessary libraries.
+
+### __Step 2: Apache server configuration__
 Configure your Apache server to set the DocumentRoot to the "/Web" folder.
 
-Step 3: Create the MySQL database and tables
+### __Step 3: Create the MySQL database and tables__
 Execute the SQL code of "bdd/code.sql" in your MySQL client.
 
-Step 4: Configuration of the database connection
+### __Step 4: Configuration of the database connection__
 In the file "/lib/OCFram/PDOFactory.php", enter the required informations to connect to your MySQL database (dsn, username, password).
+
+### __Step 5 (optional): Seed your database with test data__
+Open a terminal and do "./vendor/bin/phinx seed:run" to fill your database with fake data.
