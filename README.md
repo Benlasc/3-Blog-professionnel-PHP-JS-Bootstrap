@@ -4,8 +4,9 @@
 
 Pedagogical project: create a professional blog using PHP Vanilla.
 
-Back-end : Vanilla PHP - MySQL 
-Front-end : Bootstrap - Vanilla JavaScript
+Back-end: Vanilla PHP - MySQL 
+
+Front-end: Bootstrap - Vanilla JavaScript 
 
 ## Instructions to install the project
 
